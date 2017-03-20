@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.io.FileOutputStream;
+
 /**
  * Created by tianzhonghai on 2017/3/13.
  */
@@ -26,6 +28,8 @@ public class UserController {
 
         return "index";
     }
+
+
 
     @RequestMapping("/index2")
     public String index2(){
