@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.io.FileOutputStream;
 
@@ -21,20 +22,17 @@ public class UserController {
 
     @RequestMapping("/index")
     public String index(Model model){
-
         UserVO userVO = userInfoService.getUserVoByUserId(1);
-
         model.addAttribute("User",userVO);
-
         return "users/index";
     }
 
 
 
-    @RequestMapping("/index2")
-    public String index2(){
-
-        return "index";
-
+    @RequestMapping(value = "/add",method = RequestMethod.POST)
+    public String add(String userName,Model model){
+        UserVO userVO = userInfoService.getUserVoByUserId(1);
+        model.addAttribute("User",userVO);
+        return "users/index";
     }
 }
