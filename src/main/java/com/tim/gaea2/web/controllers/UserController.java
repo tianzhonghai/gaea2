@@ -26,7 +26,7 @@ public class UserController {
 
         model.addAttribute("User",userVO);
 
-        return "index";
+        return "users/index";
     }
 
 
