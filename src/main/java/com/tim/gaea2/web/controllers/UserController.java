@@ -34,6 +34,6 @@ public class UserController {
     public String add(UserModel userModel, Model model){
         UserVO userVO = userInfoService.getUserVoByUserId(1);
         model.addAttribute("User",userVO);
-        return "users/index";
+        return "redirect:/user/index";
     }
 }
