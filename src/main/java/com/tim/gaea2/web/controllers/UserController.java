@@ -28,8 +28,6 @@ public class UserController {
         return "users/index";
     }
 
-
-
     @RequestMapping(value = "/add",method = RequestMethod.POST)
     public String add(UserModel userModel, Model model){
         UserVO userVO = userInfoService.getUserVoByUserId(1);
