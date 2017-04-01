@@ -2,6 +2,7 @@ package com.tim.gaea2.web.controllers;
 
 import com.tim.gaea2.domain.service.UserInfoService;
 import com.tim.gaea2.domain.service.UserVO;
+import com.tim.gaea2.web.models.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,7 +31,7 @@ public class UserController {
 
 
     @RequestMapping(value = "/add",method = RequestMethod.POST)
-    public String add(String userName,Model model){
+    public String add(UserModel userModel, Model model){
         UserVO userVO = userInfoService.getUserVoByUserId(1);
         model.addAttribute("User",userVO);
         return "users/index";
