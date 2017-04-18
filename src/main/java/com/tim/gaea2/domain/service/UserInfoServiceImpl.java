@@ -23,10 +23,12 @@ public class UserInfoServiceImpl implements UserInfoService {
         UserPO userPO = userMapper.selectByPrimaryKey(id);
 
         UserVO userVO = new UserVO();
-        userVO.setId(userPO.getId());
-        userVO.setUserName(userPO.getUserName());
-        userVO.setPassword(userPO.getPassword());
-        userVO.setState(userPO.getState());
+        if(userPO != null) {
+            userVO.setId(userPO.getId());
+            userVO.setUserName(userPO.getUserName());
+            userVO.setPassword(userPO.getPassword());
+            userVO.setState(userPO.getState());
+        }
         return userVO;
     }
 }
