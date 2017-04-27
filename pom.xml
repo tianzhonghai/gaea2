@@ -107,23 +107,15 @@
         </resources>
         <plugins>
             <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <fork>true</fork>
-                </configuration>
-            </plugin>
-
-            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <configuration>
                     <excludes>
                         <!--排除一些不需要打包的class文件-->
-                        <!--<exclude>**/*.properties</exclude>-->
-                        <!--<exclude>**/logback*.xml</exclude>-->
-                        <!--<exclude>**/ehcache.xml</exclude>-->
-                        <!--<exclude>**/applicationContext.xml</exclude>-->
+                        <exclude>**/*.properties</exclude>
+                        <exclude>**/logback*.xml</exclude>
+                        <exclude>**/ehcache.xml</exclude>
+                        <exclude>**/applicationContext.xml</exclude>
                     </excludes>
                 </configuration>
             </plugin>
