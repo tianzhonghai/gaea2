@@ -113,6 +113,40 @@
                     <fork>true</fork>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <!--排除一些不需要打包的class文件-->
+                        <!--<exclude>**/*.properties</exclude>-->
+                        <!--<exclude>**/logback*.xml</exclude>-->
+                        <!--<exclude>**/ehcache.xml</exclude>-->
+                        <!--<exclude>**/applicationContext.xml</exclude>-->
+                    </excludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>  <!--执行器 mvn assembly:assembly -->
+                    <execution>
+                        <id>make-dist</id><!--名字任意 -->
+                        <phase>package</phase><!-- 绑定到package生命周期阶段上 -->
+                        <goals>
+                            <goal>single</goal><!-- 只运行一次 -->
+                        </goals>
+                        <configuration>
+                            <appendAssemblyId>false</appendAssemblyId>
+                            <finalName>dist</finalName>
+                            <!--<includeProjectArtifact>false</includeProjectArtifact>-->
+                            <descriptors>
+                                <descriptor>src/main/assembly/dist.xml</descriptor>
+                            </descriptors>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 </project>
