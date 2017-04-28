@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8" />
+    <title>Title</title>
+    <link href="http://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="http://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="   crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-3 col-md-3">用户名</div>
+        <div class="col-lg-3 col-md-3"><span th:text="${User.userName}"></span></div>
+        <div class="col-lg-3 col-md-3">按ctrl+F9实现热部署</div>
+        <div class="col-lg-3 col-md-3"><span th:text="${User.password}"></span></div>
+    </div>
+</div>
+</body>
+</html>

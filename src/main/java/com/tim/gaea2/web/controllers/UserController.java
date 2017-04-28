@@ -32,9 +32,7 @@ public class UserController {
     private UserInfoService userInfoService;
 
     @RequestMapping("/index")
-    public String index(Model model){
-        UserVO userVO = userInfoService.getUserVoByUserId(1);
-        model.addAttribute("User",userVO);
+    public String index(){
 //        int a = 0,b = 0,c = 0;
 //        a = b / c;
         return "users/index";
@@ -46,6 +44,19 @@ public class UserController {
         List<UserVO> userVOs = userInfoService.getAllUserVOs();
 
         return userVOs;
+    }
+
+    @RequestMapping("/view")
+    public String view(int id,Model model){
+
+        UserVO userVO = userInfoService.getUserVoByUserId(id);
+        model.addAttribute("User",userVO);
+        return "users/view";
+    }
+
+    @RequestMapping("/add")
+    public String add(){
+        return "users/add";
     }
 
     @RequestMapping(value = "/add",method = RequestMethod.POST)

@@ -9,30 +9,13 @@
 <body>
 <div class="container">
     <div class="row">
-        <div class="col-lg-3 col-md-3">用户名</div>
-        <div class="col-lg-3 col-md-3"><span th:text="${User.userName}"></span></div>
-        <div class="col-lg-3 col-md-3">按ctrl+F9实现热部署</div>
-        <div class="col-lg-3 col-md-3"><span th:text="${User.password}"></span></div>
-    </div>
-    <div class="row">
-        <div class="col-lg-12 col-md-12">
-            <form method="post" action="/user/add">
-                <div class="form-group">
-                    <label for="userName">Email address</label>
-                    <input type="text" class="form-control" id="userName" name="userName" placeholder="userName" />
-                </div>
-
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
-        </div>
-    </div>
-    <div class="row">
         <div class="col-lg-12">
             <table class="table table-bordered" id="tbUserList">
                 <thead>
                 <tr>
-                <th>姓名</th>
-                <th>密码1</th>
+                    <th>姓名</th>
+                    <th>密码</th>
+                    <th>创建时间</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -47,7 +30,7 @@
     $(function(){
         $.get('/user/getUserList',{},function(data){
             $.each(data,function(index,item){
-                $('#tbUserList tbody').append('<tr><td>'+item.userName+'</td><td>'+item.password+'</td></tr>')
+                $('#tbUserList tbody').append('<tr><td><a href="/user/view?id='+item.id+'">'+item.id+'</a></td><td>'+item.userName+'</td><td>'+item.password+'</td></tr>')
             })
         })
     })
