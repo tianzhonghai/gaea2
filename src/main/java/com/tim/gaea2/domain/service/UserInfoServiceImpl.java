@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Tim on 2017/2/12.
@@ -16,7 +18,7 @@ import java.util.Date;
 public class UserInfoServiceImpl implements UserInfoService {
 
     @Autowired
-    private UserPOMapper userMapper ;
+    private UserPOMapper userMapper;
 
     @Override
     public UserVO getUserVoByUserId(long id) {
@@ -26,12 +28,18 @@ public class UserInfoServiceImpl implements UserInfoService {
         UserPO userPO = userMapper.selectByPrimaryKey(id);
 
         UserVO userVO = new UserVO();
-        if(userPO != null) {
-            userVO.setId(userPO.getId());
-            userVO.setUserName(userPO.getUserName());
-            userVO.setPassword(userPO.getPassword());
-            userVO.setState(userPO.getState());
+        if (userPO != null) {
+            userVO = toUserVO(userPO);
         }
+        return userVO;
+    }
+
+    private UserVO toUserVO(UserPO userPO) {
+        UserVO userVO = new UserVO();
+        userVO.setId(userPO.getId());
+        userVO.setUserName(userPO.getUserName());
+        userVO.setPassword(userPO.getPassword());
+        userVO.setState(userPO.getState());
         return userVO;
     }
 
@@ -43,5 +51,17 @@ public class UserInfoServiceImpl implements UserInfoService {
         po.setCreateTime(new Date());
         //po.setState();
         userMapper.insert(po);
+    }
+
+    @Override
+    public List<UserVO> getAllUserVOs() {
+        List<UserVO> list = new ArrayList<>();
+        List<UserPO> userPOs = userMapper.selectByExample(null);
+
+        for (UserPO po : userPOs) {
+
+            list.add(toUserVO(po));
+        }
+        return list;
     }
 }

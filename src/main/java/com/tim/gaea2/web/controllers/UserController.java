@@ -17,6 +17,7 @@ import java.io.FileOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 /**
  * Created by tianzhonghai on 2017/3/13.
@@ -41,10 +42,10 @@ public class UserController {
 
     @RequestMapping(value = "/getUserList",method = RequestMethod.GET)
     @ResponseBody
-    public UserVO getUserList(){
-        UserVO userVO = userInfoService.getUserVoByUserId(1);
+    public List<UserVO> getUserList(){
+        List<UserVO> userVOs = userInfoService.getAllUserVOs();
 
-        return userVO;
+        return userVOs;
     }
 
     @RequestMapping(value = "/add",method = RequestMethod.POST)
