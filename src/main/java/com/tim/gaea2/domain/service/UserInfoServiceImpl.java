@@ -3,6 +3,7 @@ package com.tim.gaea2.domain.service;
 import com.tim.gaea2.domain.entity.UserPO;
 import com.tim.gaea2.domain.entity.UserPOExample;
 import com.tim.gaea2.domain.repository.UserPOMapper;
+import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,11 +36,15 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     private UserVO toUserVO(UserPO userPO) {
-        UserVO userVO = new UserVO();
-        userVO.setId(userPO.getId());
-        userVO.setUserName(userPO.getUserName());
-        userVO.setPassword(userPO.getPassword());
-        userVO.setState(userPO.getState());
+
+        org.dozer.Mapper mapper = org.dozer.DozerBeanMapperSingletonWrapper.getInstance(); //new DozerBeanMapper();
+        UserVO userVO = mapper.map(userPO, UserVO.class);
+
+//        UserVO userVO = new UserVO();
+//        userVO.setId(userPO.getId());
+//        userVO.setUserName(userPO.getUserName());
+//        userVO.setPassword(userPO.getPassword());
+//        userVO.setState(userPO.getState());
         return userVO;
     }
 
