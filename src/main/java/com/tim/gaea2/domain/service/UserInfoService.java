@@ -5,4 +5,6 @@ package com.tim.gaea2.domain.service;
  */
 public interface UserInfoService {
     UserVO getUserVoByUserId(long id);
+
+    void addUserVO(UserVO userVO);
 }

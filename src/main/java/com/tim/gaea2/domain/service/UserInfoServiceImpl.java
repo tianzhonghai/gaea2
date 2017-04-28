@@ -6,6 +6,9 @@ import com.tim.gaea2.domain.repository.UserPOMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.Date;
+
 /**
  * Created by Tim on 2017/2/12.
  */
@@ -30,5 +33,15 @@ public class UserInfoServiceImpl implements UserInfoService {
             userVO.setState(userPO.getState());
         }
         return userVO;
+    }
+
+    @Override
+    public void addUserVO(UserVO userVO) {
+        UserPO po = new UserPO();
+        po.setUserName(userVO.getUserName());
+        po.setPassword(userVO.getPassword());
+        po.setCreateTime(new Date());
+        //po.setState();
+        userMapper.insert(po);
     }
 }

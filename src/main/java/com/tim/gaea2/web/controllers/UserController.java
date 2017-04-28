@@ -1,5 +1,6 @@
 package com.tim.gaea2.web.controllers;
 
+import com.tim.gaea2.core.utils.SecretUtils;
 import com.tim.gaea2.domain.service.UserInfoService;
 import com.tim.gaea2.domain.service.UserVO;
 import com.tim.gaea2.web.models.UserModel;
@@ -12,6 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.io.FileOutputStream;
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 /**
  * Created by tianzhonghai on 2017/3/13.
@@ -36,7 +40,19 @@ public class UserController {
 
     @RequestMapping(value = "/add",method = RequestMethod.POST)
     public String add(UserModel userModel, Model model){
-        UserVO userVO = userInfoService.getUserVoByUserId(1);
+        String pwd = "123456";
+        try{
+            pwd = SecretUtils.MD5(pwd);
+        }catch (RuntimeException ex){
+            throw new RuntimeException(ex);
+        }
+
+        UserVO userVO = new UserVO();
+        userVO.setUserName(userModel.getUserName());
+        userVO.setPassword("123456");
+        userInfoService.addUserVO(userVO);
+
+        userVO = userInfoService.getUserVoByUserId(1);
         model.addAttribute("User",userVO);
         return "redirect:/user/index";
     }
