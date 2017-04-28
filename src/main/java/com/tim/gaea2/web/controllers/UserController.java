@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.FileOutputStream;
 import java.io.UnsupportedEncodingException;
@@ -36,6 +37,14 @@ public class UserController {
 //        int a = 0,b = 0,c = 0;
 //        a = b / c;
         return "users/index";
+    }
+
+    @RequestMapping(value = "/getUserList",method = RequestMethod.GET)
+    @ResponseBody
+    public UserVO getUserList(){
+        UserVO userVO = userInfoService.getUserVoByUserId(1);
+
+        return userVO;
     }
 
     @RequestMapping(value = "/add",method = RequestMethod.POST)
