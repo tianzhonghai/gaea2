@@ -40,7 +40,7 @@ public class UserController {
 
     @RequestMapping(value = "/add",method = RequestMethod.POST)
     public String add(UserModel userModel, Model model){
-        String pwd = "123456";
+        String pwd = "111111";
         try{
             pwd = SecretUtils.MD5(pwd);
         }catch (RuntimeException ex){
@@ -49,7 +49,7 @@ public class UserController {
 
         UserVO userVO = new UserVO();
         userVO.setUserName(userModel.getUserName());
-        userVO.setPassword("123456");
+        userVO.setPassword(pwd);
         userInfoService.addUserVO(userVO);
 
         userVO = userInfoService.getUserVoByUserId(1);
