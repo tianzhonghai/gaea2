@@ -4,6 +4,7 @@ import com.tim.gaea2.domain.entity.UserPO;
 import com.tim.gaea2.domain.entity.UserPOExample;
 import com.tim.gaea2.domain.repository.UserPOMapper;
 import org.dozer.DozerBeanMapper;
+import org.dozer.spring.DozerBeanMapperFactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,9 @@ public class UserInfoServiceImpl implements UserInfoService {
     @Autowired
     private UserPOMapper userMapper;
 
+    @Autowired
+    private DozerBeanMapperFactoryBean dozerBean;
+
     @Override
     public UserVO getUserVoByUserId(long id) {
 //        UserPOExample userPOExample = new UserPOExample();
@@ -36,8 +40,11 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     private UserVO toUserVO(UserPO userPO) {
-
-        org.dozer.Mapper mapper = org.dozer.DozerBeanMapperSingletonWrapper.getInstance(); //new DozerBeanMapper();
+        org.dozer.Mapper mapper = null;
+        try {
+            mapper = dozerBean.getObject();
+        }catch (Exception ex){}
+        //org.dozer.Mapper mapper = org.dozer.DozerBeanMapperSingletonWrapper.getInstance(); //new DozerBeanMapper();
         UserVO userVO = mapper.map(userPO, UserVO.class);
 
 //        UserVO userVO = new UserVO();
