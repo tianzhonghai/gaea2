@@ -4,6 +4,7 @@ import com.tim.gaea2.core.utils.SecretUtils;
 import com.tim.gaea2.domain.service.UserInfoService;
 import com.tim.gaea2.domain.service.UserVO;
 import com.tim.gaea2.web.models.UserModel;
+import org.dozer.spring.DozerBeanMapperFactoryBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,9 @@ public class UserController {
 
     @Autowired
     private UserInfoService userInfoService;
+
+    @Autowired
+    private DozerBeanMapperFactoryBean dozerBean;
 
     @RequestMapping("/index")
     public String index(){
@@ -68,13 +72,20 @@ public class UserController {
             throw new RuntimeException(ex);
         }
 
-        UserVO userVO = new UserVO();
-        userVO.setUserName(userModel.getUserName());
+//        UserVO userVO = new UserVO();
+//        userVO.setUserName(userModel.getUserName());
+//        userVO.setPassword(pwd);
+        org.dozer.Mapper mapper = null;
+        try {
+            mapper = dozerBean.getObject();
+        }catch (Exception ex){}
+
+        UserVO userVO = mapper.map(userModel,UserVO.class);
         userVO.setPassword(pwd);
         userInfoService.addUserVO(userVO);
 
-        userVO = userInfoService.getUserVoByUserId(1);
-        model.addAttribute("User",userVO);
+//        userVO = userInfoService.getUserVoByUserId(1);
+//        model.addAttribute("User",userVO);
         return "redirect:/user/index";
     }
 }
