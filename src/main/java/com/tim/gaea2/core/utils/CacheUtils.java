@@ -13,17 +13,17 @@ import java.io.IOException;
  */
 public class CacheUtils
 {
-    public static CacheManager getManager(String alias){
+    public static <TKey,TVal> CacheManager getManager(String alias,Class<TKey> keyClass,Class<TVal> valClass){
         CacheManager cacheManager = CacheManagerBuilder.newCacheManagerBuilder()
                 .withCache(alias,
-                        CacheConfigurationBuilder.newCacheConfigurationBuilder(String.class, String.class,
+                        CacheConfigurationBuilder.newCacheConfigurationBuilder(keyClass, valClass,
                                 ResourcePoolsBuilder.heap(100))
                                 .build())
                 .build(true);
         return cacheManager;
     }
 
-    public static CacheManager getDefaultManager(){
-        return getManager("default");
-    }
+//    public static CacheManager getDefaultManager(){
+//        return getManager("default");
+//    }
 }

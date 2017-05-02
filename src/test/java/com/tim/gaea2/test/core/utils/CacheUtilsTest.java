@@ -20,7 +20,7 @@ public class CacheUtilsTest {
 
     @Test
     public void getDefaultManager(){
-        try(CacheManager manager = CacheUtils.getDefaultManager()) {
+        try(CacheManager manager = CacheUtils.getManager("default",String.class,String.class)) {
             org.junit.Assert.assertNotNull(manager);
 
             Cache<String, String> cache = manager.getCache("default", String.class, String.class);
@@ -37,6 +37,9 @@ public class CacheUtilsTest {
             String name = cache.get("myname");
 
             org.junit.Assert.assertEquals(name, "tim.tian");
+
+            cache = manager.getCache("default", String.class, String.class);
+            name = cache.get("myname");
 
             manager.removeCache("test");
             cache = manager.getCache("test", String.class, String.class);
