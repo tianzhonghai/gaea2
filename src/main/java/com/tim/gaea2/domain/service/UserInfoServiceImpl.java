@@ -4,6 +4,7 @@ import com.tim.gaea2.domain.entity.UserPO;
 import com.tim.gaea2.domain.entity.UserPOExample;
 import com.tim.gaea2.domain.repository.UserPOMapper;
 import org.dozer.DozerBeanMapper;
+import org.dozer.Mapper;
 import org.dozer.spring.DozerBeanMapperFactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,10 +41,7 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     private UserVO toUserVO(UserPO userPO) {
-        org.dozer.Mapper mapper = null;
-        try {
-            mapper = dozerBean.getObject();
-        }catch (Exception ex){}
+        org.dozer.Mapper mapper = getMapper();
         //org.dozer.Mapper mapper = org.dozer.DozerBeanMapperSingletonWrapper.getInstance(); //new DozerBeanMapper();
         UserVO userVO = mapper.map(userPO, UserVO.class);
 
@@ -55,14 +53,28 @@ public class UserInfoServiceImpl implements UserInfoService {
         return userVO;
     }
 
+    private Mapper getMapper() {
+        Mapper mapper = null;
+        try {
+            mapper = dozerBean.getObject();
+        }catch (Exception ex){
+            throw new RuntimeException("获取dozerMapper异常",ex);
+        }
+        return mapper;
+    }
+
     @Override
     public void addUserVO(UserVO userVO) {
-        UserPO po = new UserPO();
-        po.setUserName(userVO.getUserName());
-        po.setPassword(userVO.getPassword());
-        po.setCreateTime(new Date());
-        //po.setState();
-        userMapper.insert(po);
+//        UserPO userPO = new UserPO();
+//        userPO.setUserName(userVO.getUserName());
+//        userPO.setPassword(userVO.getPassword());
+//        userPO.setCreateTime(new Date());
+//        //userPO.setState();
+
+        org.dozer.Mapper mapper = getMapper();
+        UserPO userPO = mapper.map(userVO, UserPO.class);
+        userPO.setCreateTime(new Date());
+        userMapper.insert(userPO);
     }
 
     @Override
