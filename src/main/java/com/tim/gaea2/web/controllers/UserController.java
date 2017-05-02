@@ -46,13 +46,11 @@ public class UserController {
     @ResponseBody
     public List<UserVO> getUserList(){
         List<UserVO> userVOs = userInfoService.getAllUserVOs();
-
         return userVOs;
     }
 
     @RequestMapping("/view")
     public String view(int id,Model model){
-
         UserVO userVO = userInfoService.getUserVoByUserId(id);
         model.addAttribute("User",userVO);
         return "users/view";
@@ -72,9 +70,6 @@ public class UserController {
             throw new RuntimeException(ex);
         }
 
-//        UserVO userVO = new UserVO();
-//        userVO.setUserName(userModel.getUserName());
-//        userVO.setPassword(pwd);
         org.dozer.Mapper mapper = null;
         try {
             mapper = dozerBean.getObject();
@@ -84,8 +79,6 @@ public class UserController {
         userVO.setPassword(pwd);
         userInfoService.addUserVO(userVO);
 
-//        userVO = userInfoService.getUserVoByUserId(1);
-//        model.addAttribute("User",userVO);
         return "redirect:/user/index";
     }
 }
