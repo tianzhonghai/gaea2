@@ -9,6 +9,21 @@
 <body>
 <div class="container">
     <div class="row">
+        <div class="form-horizontal">
+        <div class="form-group">
+            <label class="col-lg-1 control-label">用户ID</label>
+            <div class="col-lg-3">
+                <input type="text" class="form-control" />
+            </div>
+            <div class="col-lg-3">
+                <button type="button" id="btnQuery" class="btn btn-success">查询</button>
+                <button type="button" id="btnNew" class="btn btn-default">创建</button>
+            </div>
+            <div class="col-lg-5"></div>
+        </div>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-lg-12">
             <table class="table table-bordered" id="tbUserList">
                 <thead>
@@ -28,11 +43,23 @@
 
 <script type="text/javascript">
     $(function(){
+
+    })
+
+    function doQuery(){
         $.get('/user/getUserList',{},function(data){
             $.each(data,function(index,item){
                 $('#tbUserList tbody').append('<tr><td><a href="/user/view?id='+item.id+'">'+item.id+'</a></td><td>'+item.userName+'</td><td>'+item.password+'</td></tr>')
             })
         })
+    }
+
+    $('#btnQuery').click(function(){
+        doQuery();
+    })
+
+    $('#btnNew').click(function(){
+        window.location = "/user/add";
     })
 </script>
 </body>
