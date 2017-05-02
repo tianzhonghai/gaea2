@@ -20,28 +20,30 @@ public class CacheUtilsTest {
 
     @Test
     public void getDefaultManager(){
-        CacheManager manager = CacheUtils.getDefaultManager();
-        org.junit.Assert.assertNotNull(manager);
+        try(CacheManager manager = CacheUtils.getDefaultManager()) {
+            org.junit.Assert.assertNotNull(manager);
 
-        Cache<String,String> cache = manager.getCache("test",String.class,String.class);
-        if(cache == null){
-            cache = manager.createCache("test",
-                    CacheConfigurationBuilder.newCacheConfigurationBuilder(String.class,String.class, ResourcePoolsBuilder.heap((10)))
-                    .build()
-                    );
+            Cache<String, String> cache = manager.getCache("default", String.class, String.class);
+            if (cache == null) {
+                cache = manager.createCache("default",
+                        CacheConfigurationBuilder.newCacheConfigurationBuilder(String.class, String.class, ResourcePoolsBuilder.heap((10)))
+                                .build()
+                );
+            }
+            cache = manager.getCache("default", String.class, String.class);
+            org.junit.Assert.assertNotNull(cache);
+
+            cache.put("myname", "tim.tian");
+            String name = cache.get("myname");
+
+            org.junit.Assert.assertEquals(name, "tim.tian");
+
+            manager.removeCache("test");
+            cache = manager.getCache("test", String.class, String.class);
+            org.junit.Assert.assertNull(cache);
+
+            //manager.close();
         }
-        org.junit.Assert.assertNotNull(cache);
-
-        cache.put("myname","tim.tian");
-        String name = cache.get("myname");
-
-        org.junit.Assert.assertEquals(name,"tim.tian");
-
-        manager.removeCache("test");
-        cache = manager.getCache("test",String.class,String.class);
-        org.junit.Assert.assertNull(cache);
-
-        manager.close();
     }
 
 }
