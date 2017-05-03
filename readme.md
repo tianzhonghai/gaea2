@@ -1,1 +1,1 @@
-基于mybatis+springboot+dozer+guava的项目骨架
+基于springboot+mybatis+dozer+guava+logback的项目骨架
