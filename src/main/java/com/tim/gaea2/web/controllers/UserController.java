@@ -1,5 +1,7 @@
 package com.tim.gaea2.web.controllers;
 
+import com.google.common.cache.Cache;
+import com.tim.gaea2.core.utils.GuavaCacheUtils;
 import com.tim.gaea2.core.utils.SecretUtils;
 import com.tim.gaea2.domain.service.UserInfoService;
 import com.tim.gaea2.domain.service.UserVO;
@@ -58,8 +60,13 @@ public class UserController {
     }
 
     @RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
-    public String detail(@PathVariable int id, Model model){
-        UserVO userVO = userInfoService.getUserVoByUserId(id);
+    public String detail(@PathVariable int id, Model model) throws Exception{
+
+        Cache<String,Object> cache = GuavaCacheUtils.getCache();
+
+        UserVO userVO = (UserVO)cache.get(Integer.toString(id),()->{
+            return userInfoService.getUserVoByUserId(id);
+        });
         model.addAttribute("User",userVO);
         return "users/view";
     }
