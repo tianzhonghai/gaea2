@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Test</title>
+    <link href="http://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" />
+    <link th:href="@{/css/main.css}" href="/css/main.css" rel="stylesheet" />
+</head>
+<body>
+<div class="container">
+    <div class="col-lg-12">
+        <form class="form-horizontal" action="/login" method="post" th:action="@{/login}">
+            <div class="form-group">
+                <label for="username" class="col-sm-2 control-label">username</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="username" id="username" placeholder="user name" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="username" class="col-sm-2 control-label">password</label>
+                <div class="col-sm-10">
+                    <input type="password" class="form-control" name="password" id="password" placeholder="password" />
+                </div>
+            </div>
+            <button type="submit" id="login">提交</button>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

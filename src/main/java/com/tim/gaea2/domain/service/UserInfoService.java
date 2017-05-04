@@ -8,6 +8,8 @@ import java.util.List;
 public interface UserInfoService {
     UserVO getUserVoByUserId(long id);
 
+    UserVO getUserVoByUserName(String userName);
+
     void addUserVO(UserVO userVO);
 
     List<UserVO> getAllUserVOs();

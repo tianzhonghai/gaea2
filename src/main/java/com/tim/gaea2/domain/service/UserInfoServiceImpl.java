@@ -28,14 +28,24 @@ public class UserInfoServiceImpl implements UserInfoService {
 
     @Override
     public UserVO getUserVoByUserId(long id) {
-//        UserPOExample userPOExample = new UserPOExample();
-//        userPOExample.createCriteria().andIdEqualTo(id);
-
         UserPO userPO = userMapper.selectByPrimaryKey(id);
 
         UserVO userVO = new UserVO();
         if (userPO != null) {
             userVO = toUserVO(userPO);
+        }
+        return userVO;
+    }
+
+    @Override
+    public UserVO getUserVoByUserName(String userName) {
+        UserPOExample userPOExample = new UserPOExample();
+        userPOExample.createCriteria().andUserNameEqualTo(userName);
+        List<UserPO> userPOs = userMapper.selectByExample(userPOExample);
+
+        UserVO userVO = null;
+        if(userPOs != null && userPOs.size() > 0){
+            userVO = toUserVO(userPOs.get(0));
         }
         return userVO;
     }
