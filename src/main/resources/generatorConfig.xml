@@ -54,5 +54,13 @@
             <columnOverride column="state" property="state"></columnOverride>
             <columnOverride column="create_time" property="createTime"></columnOverride>
         </table>
+        <table tableName="role" domainObjectName="RolePO">
+            <property name="beginningDelimiter" value="`"/>
+            <property name="endingDelimiter" value="`"/>
+            <generatedKey column="id" sqlStatement="MySql" identity="true"></generatedKey>
+            <columnOverride column="role_name" property="roleName"></columnOverride>
+            <columnOverride column="role_sign" property="roleSign"></columnOverride>
+            <columnOverride column="description" property="description"></columnOverride>
+        </table>
     </context>
 </generatorConfiguration>
