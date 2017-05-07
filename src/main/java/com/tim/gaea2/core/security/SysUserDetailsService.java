@@ -23,7 +23,7 @@ public class SysUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException("用户名不存在");
         }
 
-        LoginUser loginUser = new LoginUser(userVO.getUserName(),userVO.getPassword());
+        LoginUser loginUser = new LoginUser(userVO);
         return loginUser;
     }
 }

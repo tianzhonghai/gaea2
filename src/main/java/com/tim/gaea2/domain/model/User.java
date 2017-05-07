@@ -1,8 +1,13 @@
 package com.tim.gaea2.domain.model;
 
+import com.tim.gaea2.core.utils.SpringUtil;
+import com.tim.gaea2.domain.entity.UserRolePO;
+import com.tim.gaea2.domain.service.UserInfoService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -55,4 +60,9 @@ public class User {
         this.state = state == null ? null : state.trim();
     }
 
+    public List<UserRolePO> getAllUserRolePOs(){
+        UserInfoService userInfoService = SpringUtil.getBean(UserInfoService.class);
+        List<UserRolePO> list = userInfoService.getUserRolesByUserId(id);
+        return list;
+    }
 }

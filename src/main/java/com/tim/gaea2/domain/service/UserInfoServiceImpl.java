@@ -2,8 +2,11 @@ package com.tim.gaea2.domain.service;
 
 import com.tim.gaea2.domain.entity.UserPO;
 import com.tim.gaea2.domain.entity.UserPOExample;
+import com.tim.gaea2.domain.entity.UserRolePO;
+import com.tim.gaea2.domain.entity.UserRolePOExample;
 import com.tim.gaea2.domain.model.User;
 import com.tim.gaea2.domain.repository.UserPOMapper;
+import com.tim.gaea2.domain.repository.UserRolePOMapper;
 import org.dozer.Mapper;
 import org.dozer.spring.DozerBeanMapperFactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +24,9 @@ public class UserInfoServiceImpl implements UserInfoService {
 
     @Autowired
     private UserPOMapper userMapper;
+
+    @Autowired
+    private UserRolePOMapper userRolePOMapper;
 
     @Autowired
     private DozerBeanMapperFactoryBean dozerBean;
@@ -95,6 +101,15 @@ public class UserInfoServiceImpl implements UserInfoService {
 
             list.add(toUserVO(po));
         }
+        return list;
+    }
+
+    @Override
+    public List<UserRolePO> getUserRolesByUserId(long userId) {
+        UserRolePOExample userRolePOExample = new UserRolePOExample();
+        userRolePOExample.createCriteria().andUserIdEqualTo(userId);
+        List<UserRolePO> list = userRolePOMapper.selectByExample(userRolePOExample);
+
         return list;
     }
 }

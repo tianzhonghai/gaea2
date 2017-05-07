@@ -1,5 +1,11 @@
 package com.tim.gaea2.core.security;
 
+import com.tim.gaea2.domain.entity.UserRolePO;
+import com.tim.gaea2.domain.entity.UserRolePOExample;
+import com.tim.gaea2.domain.model.User;
+import com.tim.gaea2.domain.repository.UserRolePOMapper;
+import com.tim.gaea2.domain.service.UserInfoService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,30 +18,33 @@ import java.util.List;
  * 登录用户
  * Created by Tim on 2017/5/7.
  */
-public final class LoginUser implements UserDetails {
+public class LoginUser implements UserDetails {
 
-    private String username;
-    private String password;
-    public LoginUser(String username,String password){
-        this.username = username;
-        this.password = password;
+    private User user;
+
+    public LoginUser(User user){
+        this.user = user;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> auths = new ArrayList<>();
-        auths.add(new SimpleGrantedAuthority("admin"));
+
+        List<UserRolePO> list = user.getAllUserRolePOs();
+        for (UserRolePO po : list){
+            auths.add(new SimpleGrantedAuthority(po.getRoleId().toString()));
+        }
         return auths;
     }
 
     @Override
     public String getPassword() {
-        return password;
+        return user.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return username;
+        return user.getUserName();
     }
 
     @Override
