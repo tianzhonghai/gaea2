@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Created by Tim on 2017/2/12.
  */
-public class UserVO implements UserDetails {
+public class UserVO {
     private Long id;
 
     private String userName;
@@ -31,48 +31,16 @@ public class UserVO implements UserDetails {
         this.id = id;
     }
 
-//    public String getUserName() {
-//        return userName;
-//    }
+    public String getUserName() {
+        return userName;
+    }
 
     public void setUserName(String userName) {
         this.userName = userName == null ? null : userName.trim();
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<GrantedAuthority> auths = new ArrayList<>();
-        auths.add(new SimpleGrantedAuthority("admin"));
-        return auths;
-    }
-
     public String getPassword() {
         return password;
-    }
-
-    @Override
-    public String getUsername() {
-        return userName;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
     }
 
     public void setPassword(String password) {

@@ -1,4 +1,4 @@
-package com.tim.gaea2.domain.service;
+package com.tim.gaea2.core.security;
 
 import com.tim.gaea2.domain.service.UserInfoService;
 import com.tim.gaea2.domain.service.UserVO;
@@ -23,7 +23,7 @@ public class SysUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException("用户名不存在");
         }
 
-
-        return userVO;
+        LoginUser loginUser = new LoginUser(userVO.getUserName(),userVO.getPassword());
+        return loginUser;
     }
 }
