@@ -6,14 +6,14 @@
 
     <mapping>
         <class-a>com.tim.gaea2.domain.entity.UserPO</class-a>
-        <class-b>com.tim.gaea2.domain.service.UserVO</class-b>
+        <class-b>com.tim.gaea2.domain.model.UserVO</class-b>
         <!--<field>-->
             <!--<a>one</a>-->
             <!--<b>onePrime</b>-->
         <!--</field>-->
     </mapping>
     <mapping wildcard="false">
-        <class-a>com.tim.gaea2.domain.service.UserVO</class-a>
+        <class-a>com.tim.gaea2.domain.model.UserVO</class-a>
         <class-b>com.tim.gaea2.web.models.UserModel</class-b>
         <!--<field>-->
             <!--<a>oneFoo</a>-->

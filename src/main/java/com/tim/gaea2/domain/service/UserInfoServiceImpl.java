@@ -2,14 +2,13 @@ package com.tim.gaea2.domain.service;
 
 import com.tim.gaea2.domain.entity.UserPO;
 import com.tim.gaea2.domain.entity.UserPOExample;
+import com.tim.gaea2.domain.model.User;
 import com.tim.gaea2.domain.repository.UserPOMapper;
-import org.dozer.DozerBeanMapper;
 import org.dozer.Mapper;
 import org.dozer.spring.DozerBeanMapperFactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -27,10 +26,10 @@ public class UserInfoServiceImpl implements UserInfoService {
     private DozerBeanMapperFactoryBean dozerBean;
 
     @Override
-    public UserVO getUserVoByUserId(long id) {
+    public User getUserVoByUserId(long id) {
         UserPO userPO = userMapper.selectByPrimaryKey(id);
 
-        UserVO userVO = new UserVO();
+        User userVO = new User();
         if (userPO != null) {
             userVO = toUserVO(userPO);
         }
@@ -38,22 +37,22 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
-    public UserVO getUserVoByUserName(String userName) {
+    public User getUserVoByUserName(String userName) {
         UserPOExample userPOExample = new UserPOExample();
         userPOExample.createCriteria().andUserNameEqualTo(userName);
         List<UserPO> userPOs = userMapper.selectByExample(userPOExample);
 
-        UserVO userVO = null;
+        User userVO = null;
         if(userPOs != null && userPOs.size() > 0){
             userVO = toUserVO(userPOs.get(0));
         }
         return userVO;
     }
 
-    private UserVO toUserVO(UserPO userPO) {
+    private User toUserVO(UserPO userPO) {
         org.dozer.Mapper mapper = getMapper();
         //org.dozer.Mapper mapper = org.dozer.DozerBeanMapperSingletonWrapper.getInstance(); //new DozerBeanMapper();
-        UserVO userVO = mapper.map(userPO, UserVO.class);
+        User userVO = mapper.map(userPO, User.class);
 
 //        UserVO userVO = new UserVO();
 //        userVO.setId(userPO.getId());
@@ -74,7 +73,7 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
-    public void addUserVO(UserVO userVO) {
+    public void addUserVO(User userVO) {
 //        UserPO userPO = new UserPO();
 //        userPO.setUserName(userVO.getUserName());
 //        userPO.setPassword(userVO.getPassword());
@@ -88,8 +87,8 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
-    public List<UserVO> getAllUserVOs() {
-        List<UserVO> list = new ArrayList<>();
+    public List<User> getAllUserVOs() {
+        List<User> list = new ArrayList<>();
         List<UserPO> userPOs = userMapper.selectByExample(null);
 
         for (UserPO po : userPOs) {

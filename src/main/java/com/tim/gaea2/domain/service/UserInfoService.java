@@ -1,16 +1,19 @@
 package com.tim.gaea2.domain.service;
 
+
+import com.tim.gaea2.domain.model.User;
+
 import java.util.List;
 
 /**
  * Created by Tim on 2017/2/12.
  */
 public interface UserInfoService {
-    UserVO getUserVoByUserId(long id);
+    User getUserVoByUserId(long id);
 
-    UserVO getUserVoByUserName(String userName);
+    User getUserVoByUserName(String userName);
 
-    void addUserVO(UserVO userVO);
+    void addUserVO(User userVO);
 
-    List<UserVO> getAllUserVOs();
+    List<User> getAllUserVOs();
 }

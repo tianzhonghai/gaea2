@@ -3,8 +3,8 @@ package com.tim.gaea2.web.controllers;
 import com.google.common.cache.Cache;
 import com.tim.gaea2.core.utils.GuavaCacheUtils;
 import com.tim.gaea2.core.utils.SecretUtils;
+import com.tim.gaea2.domain.model.User;
 import com.tim.gaea2.domain.service.UserInfoService;
-import com.tim.gaea2.domain.service.UserVO;
 import com.tim.gaea2.web.models.UserModel;
 import org.dozer.spring.DozerBeanMapperFactoryBean;
 import org.slf4j.Logger;
@@ -17,10 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.io.FileOutputStream;
-import java.io.UnsupportedEncodingException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 /**
@@ -47,14 +43,14 @@ public class UserController {
 
     @RequestMapping(value = "/getUserList",method = RequestMethod.GET)
     @ResponseBody
-    public List<UserVO> getUserList(){
-        List<UserVO> userVOs = userInfoService.getAllUserVOs();
+    public List<User> getUserList(){
+        List<User> userVOs = userInfoService.getAllUserVOs();
         return userVOs;
     }
 
     @RequestMapping("/view")
     public String view(int id,Model model){
-        UserVO userVO = userInfoService.getUserVoByUserId(id);
+        User userVO = userInfoService.getUserVoByUserId(id);
         model.addAttribute("User",userVO);
         return "users/view";
     }
@@ -64,7 +60,7 @@ public class UserController {
 
         Cache<String,Object> cache = GuavaCacheUtils.getCache();
 
-        UserVO userVO = (UserVO)cache.get(Integer.toString(id),()->{
+        User userVO = (User)cache.get(Integer.toString(id),()->{
             return userInfoService.getUserVoByUserId(id);
         });
         model.addAttribute("User",userVO);
@@ -90,7 +86,7 @@ public class UserController {
             mapper = dozerBean.getObject();
         }catch (Exception ex){}
 
-        UserVO userVO = mapper.map(userModel,UserVO.class);
+        User userVO = mapper.map(userModel,User.class);
         userVO.setPassword(pwd);
         userInfoService.addUserVO(userVO);
 

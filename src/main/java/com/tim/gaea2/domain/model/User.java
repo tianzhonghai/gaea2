@@ -1,4 +1,4 @@
-package com.tim.gaea2.domain.service;
+package com.tim.gaea2.domain.model;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Created by Tim on 2017/2/12.
  */
-public class UserVO {
+public class User {
     private Long id;
 
     private String userName;

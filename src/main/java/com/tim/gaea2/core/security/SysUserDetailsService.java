@@ -1,7 +1,7 @@
 package com.tim.gaea2.core.security;
 
 import com.tim.gaea2.domain.service.UserInfoService;
-import com.tim.gaea2.domain.service.UserVO;
+import com.tim.gaea2.domain.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -18,7 +18,7 @@ public class SysUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
 
-        UserVO userVO = userInfoService.getUserVoByUserName(s);
+        User userVO = userInfoService.getUserVoByUserName(s);
         if(userVO == null){
             throw new UsernameNotFoundException("用户名不存在");
         }
