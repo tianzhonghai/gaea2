@@ -34,6 +34,7 @@ public class CustomInvocationSecurityMetadataSourceService
             RequestMatcher requestMatcher = new AntPathRequestMatcher(resURL);
             if(requestMatcher.matches(filterInvocation.getHttpRequest())) {
                 //return resourceMap.get(resURL);
+                String a = "";
             }
 
         }
