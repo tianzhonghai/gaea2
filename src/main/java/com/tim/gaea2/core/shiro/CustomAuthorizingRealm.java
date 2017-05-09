@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
+ * 验证范围
  * Created by tianzhonghai on 2017/5/9.
  */
 @Component
@@ -42,7 +43,7 @@ public class CustomAuthorizingRealm extends AuthorizingRealm {
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         SysUser user = (SysUser) principals.getPrimaryPrincipal();
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
-        Set<String> shiroPermissions = new HashSet<>();
+        //Set<String> shiroPermissions = new HashSet<>();
         Set<String> roleSet = new HashSet<>();
 
         List<RoleAndPermissionPO> roles = roleService.getRolePermissionByUserId(user.getId());
@@ -51,11 +52,11 @@ public class CustomAuthorizingRealm extends AuthorizingRealm {
                 roleSet.add(roleAndPermissionPO.getRoleId().toString());
             }
 
-            shiroPermissions.add(roleAndPermissionPO.getPermissionSign());
+            //shiroPermissions.add(roleAndPermissionPO.getPermissionSign());
         }
 
         authorizationInfo.setRoles(roleSet);
-        authorizationInfo.setStringPermissions(shiroPermissions);
+        //authorizationInfo.setStringPermissions(shiroPermissions); //权限集合，基于角色的可以不设置
         return authorizationInfo;
     }
 
