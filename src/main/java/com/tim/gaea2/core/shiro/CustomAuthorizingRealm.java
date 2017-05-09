@@ -1,6 +1,7 @@
 package com.tim.gaea2.core.shiro;
 
 import com.tim.gaea2.core.utils.SecretUtils;
+import com.tim.gaea2.domain.entity.RoleAndPermissionPO;
 import com.tim.gaea2.domain.entity.UserRolePO;
 import com.tim.gaea2.domain.model.SysUser;
 import com.tim.gaea2.domain.service.RoleService;
@@ -44,15 +45,16 @@ public class CustomAuthorizingRealm extends AuthorizingRealm {
         SysUser dbUser = userService.getUserVoByUserName(user.getUserName());
         Set<String> shiroPermissions = new HashSet<>();
         Set<String> roleSet = new HashSet<>();
-        List<UserRolePO> roles = dbUser.getAllUserRolePOs();
-        for (UserRolePO role : roles) {
-//            Set<Resource> resources = roleService.getAllRoleResources();
-//            for (Resource resource : resources) {
-//                shiroPermissions.add(resource.getSourceKey());
-//
-//            }
-//            roleSet.add(role.getId().toString());
+
+        List<RoleAndPermissionPO> roles = roleService.getRolePermissionByUserId(dbUser.getId());
+        for (RoleAndPermissionPO  roleAndPermissionPO : roles) {
+            if(! roleSet.contains(roleAndPermissionPO.getRoleId().toString())) {
+                roleSet.add(roleAndPermissionPO.getRoleId().toString());
+            }
+
+            shiroPermissions.add(roleAndPermissionPO.getPermissionSign());
         }
+
         authorizationInfo.setRoles(roleSet);
         authorizationInfo.setStringPermissions(shiroPermissions);
         return authorizationInfo;

@@ -10,4 +10,6 @@ import java.util.List;
  */
 public interface RoleService {
     List<RoleAndPermissionPO> getRolePermissionsByRoleIds(long[] roleIds);
+
+    List<RoleAndPermissionPO> getRolePermissionByUserId(long userId);
 }

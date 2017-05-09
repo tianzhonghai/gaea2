@@ -22,4 +22,10 @@ public class RoleServiceImpl implements RoleService{
         List<RoleAndPermissionPO> list = roleMapper.selectRolePermissionsByRoleIds(roleIds);
         return list;
     }
+
+    @Override
+    public List<RoleAndPermissionPO> getRolePermissionByUserId(long userId) {
+        List<RoleAndPermissionPO> list = roleMapper.selectRolePermissionByUserId(userId);
+        return list;
+    }
 }
