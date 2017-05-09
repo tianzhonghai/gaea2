@@ -42,11 +42,10 @@ public class CustomAuthorizingRealm extends AuthorizingRealm {
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         SysUser user = (SysUser) principals.getPrimaryPrincipal();
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
-        SysUser dbUser = userService.getUserVoByUserName(user.getUserName());
         Set<String> shiroPermissions = new HashSet<>();
         Set<String> roleSet = new HashSet<>();
 
-        List<RoleAndPermissionPO> roles = roleService.getRolePermissionByUserId(dbUser.getId());
+        List<RoleAndPermissionPO> roles = roleService.getRolePermissionByUserId(user.getId());
         for (RoleAndPermissionPO  roleAndPermissionPO : roles) {
             if(! roleSet.contains(roleAndPermissionPO.getRoleId().toString())) {
                 roleSet.add(roleAndPermissionPO.getRoleId().toString());
