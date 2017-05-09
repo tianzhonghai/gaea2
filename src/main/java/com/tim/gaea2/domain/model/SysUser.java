@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * Created by Tim on 2017/2/12.
  */
-public class User {
+public class SysUser {
     private Long id;
 
     private String userName;

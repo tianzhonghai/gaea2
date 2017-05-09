@@ -22,7 +22,7 @@ import java.util.*;
  * Created by Tim on 2017/5/7.
  */
 @Service
-public class CustomInvocationSecurityMetadataSourceService
+public class CustomFilterInvocationSecurityMetadataSource
         implements FilterInvocationSecurityMetadataSource {
 
     @Autowired

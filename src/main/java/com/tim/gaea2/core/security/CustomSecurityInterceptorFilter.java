@@ -16,9 +16,9 @@ import java.io.IOException;
  * Created by tianzhonghai on 2017/5/8.
  */
 @Component
-public class MyFilterSecurityInterceptor extends AbstractSecurityInterceptor implements Filter {
+public class CustomSecurityInterceptorFilter extends AbstractSecurityInterceptor implements Filter {
     @Autowired
-    private CustomInvocationSecurityMetadataSourceService  mySecurityMetadataSource;
+    private CustomFilterInvocationSecurityMetadataSource  mySecurityMetadataSource;
 
     @Autowired
     private CustomAccessDecisionManager myAccessDecisionManager;
@@ -48,22 +48,21 @@ public class MyFilterSecurityInterceptor extends AbstractSecurityInterceptor imp
     }
 
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        FilterInvocation fi = new FilterInvocation( servletRequest, servletResponse, filterChain );
-        invoke(fi);
+        FilterInvocation fileInvocation  = new FilterInvocation( servletRequest, servletResponse, filterChain );
 
+        invoke(fileInvocation);
     }
 
-    public void invoke( FilterInvocation fi ) throws IOException, ServletException{
+    public void invoke(FilterInvocation fileInvocation) throws IOException, ServletException{
         System.out.println("filter..........................");
-        InterceptorStatusToken token = super.beforeInvocation(fi);
+        InterceptorStatusToken token = super.beforeInvocation(fileInvocation);
         try{
-            fi.getChain().doFilter(fi.getRequest(), fi.getResponse());
+            fileInvocation.getChain().doFilter(fileInvocation.getRequest(), fileInvocation.getResponse());
         }finally{
             super.afterInvocation(token, null);
         }
 
     }
-
 
     public void destroy() {
 

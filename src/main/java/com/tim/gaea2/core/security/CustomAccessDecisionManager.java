@@ -55,23 +55,18 @@ public class CustomAccessDecisionManager implements AccessDecisionManager {
 
         while( ite.hasNext()){
             ConfigAttribute ca = ite.next();
-            String needRole = ((SecurityConfig)ca).getAttribute();
+            String needRole = ((SecurityConfig)ca).getAttribute().trim();
 
             //ga 为用户所被赋予的权限。 needRole 为访问相应的资源应该具有的权限。
             for( GrantedAuthority ga: authentication.getAuthorities()){
-
-                if(needRole.trim().equals(ga.getAuthority().trim())){
-
+                String userOwnRole = ga.getAuthority().trim();
+                if(needRole.equals(userOwnRole)){
                     return;
                 }
-
             }
-
         }
 
         throw new AccessDeniedException("权限不足");
-
-
     }
 
     @Override

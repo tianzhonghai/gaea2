@@ -4,7 +4,7 @@ import com.tim.gaea2.domain.entity.UserPO;
 import com.tim.gaea2.domain.entity.UserPOExample;
 import com.tim.gaea2.domain.entity.UserRolePO;
 import com.tim.gaea2.domain.entity.UserRolePOExample;
-import com.tim.gaea2.domain.model.User;
+import com.tim.gaea2.domain.model.SysUser;
 import com.tim.gaea2.domain.repository.UserPOMapper;
 import com.tim.gaea2.domain.repository.UserRolePOMapper;
 import org.dozer.Mapper;
@@ -32,10 +32,10 @@ public class UserInfoServiceImpl implements UserInfoService {
     private DozerBeanMapperFactoryBean dozerBean;
 
     @Override
-    public User getUserVoByUserId(long id) {
+    public SysUser getUserVoByUserId(long id) {
         UserPO userPO = userMapper.selectByPrimaryKey(id);
 
-        User userVO = new User();
+        SysUser userVO = new SysUser();
         if (userPO != null) {
             userVO = toUserVO(userPO);
         }
@@ -43,22 +43,22 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
-    public User getUserVoByUserName(String userName) {
+    public SysUser getUserVoByUserName(String userName) {
         UserPOExample userPOExample = new UserPOExample();
         userPOExample.createCriteria().andUserNameEqualTo(userName);
         List<UserPO> userPOs = userMapper.selectByExample(userPOExample);
 
-        User userVO = null;
+        SysUser userVO = null;
         if(userPOs != null && userPOs.size() > 0){
             userVO = toUserVO(userPOs.get(0));
         }
         return userVO;
     }
 
-    private User toUserVO(UserPO userPO) {
+    private SysUser toUserVO(UserPO userPO) {
         org.dozer.Mapper mapper = getMapper();
         //org.dozer.Mapper mapper = org.dozer.DozerBeanMapperSingletonWrapper.getInstance(); //new DozerBeanMapper();
-        User userVO = mapper.map(userPO, User.class);
+        SysUser userVO = mapper.map(userPO, SysUser.class);
 
 //        UserVO userVO = new UserVO();
 //        userVO.setId(userPO.getId());
@@ -79,7 +79,7 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
-    public void addUserVO(User userVO) {
+    public void addUserVO(SysUser userVO) {
 //        UserPO userPO = new UserPO();
 //        userPO.setUserName(userVO.getUserName());
 //        userPO.setPassword(userVO.getPassword());
@@ -93,8 +93,8 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
-    public List<User> getAllUserVOs() {
-        List<User> list = new ArrayList<>();
+    public List<SysUser> getAllUserVOs() {
+        List<SysUser> list = new ArrayList<>();
         List<UserPO> userPOs = userMapper.selectByExample(null);
 
         for (UserPO po : userPOs) {

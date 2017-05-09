@@ -1,8 +1,9 @@
 package com.tim.gaea2.core.config;
 
-import com.tim.gaea2.core.security.MyFilterSecurityInterceptor;
+import com.tim.gaea2.core.security.CustomSecurityInterceptorFilter;
+import com.tim.gaea2.core.security.CustomUserDetailsService;
+import com.tim.gaea2.core.security.LoginSuccessHandler;
 import com.tim.gaea2.core.utils.SecretUtils;
-import com.tim.gaea2.core.security.SysUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,11 +23,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
     @Autowired
-    private MyFilterSecurityInterceptor mySecurityFilter;
+    private CustomSecurityInterceptorFilter customSecurityInterceptorFilter;
 
     @Bean
     UserDetailsService customUserService(){
-        return new SysUserDetailsService();
+        return new CustomUserDetailsService();
     }
 
     @Override
@@ -48,18 +49,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-                .addFilterBefore(mySecurityFilter, FilterSecurityInterceptor.class)
-            .authorizeRequests().anyRequest().authenticated()
+        http.addFilterBefore(customSecurityInterceptorFilter, FilterSecurityInterceptor.class)
+            .authorizeRequests()
+            .antMatchers("/css").permitAll().antMatchers("/images").permitAll().antMatchers("js").permitAll()
+             .anyRequest().authenticated()
             .and()
-            .formLogin().loginPage("/login").failureUrl("/login?error").permitAll()
+            .formLogin().loginPage("/login").failureUrl("/login?msg=fail").permitAll()
                 //.successHandler()
             .and()
             .logout().permitAll().invalidateHttpSession(true);
     }
 
-//    @Bean
-//    public LoginSuccessHandler loginSuccessHandler(){
-//        return new LoginSuccessHandler();
-//    }
+    @Bean
+    public LoginSuccessHandler loginSuccessHandler(){
+        return new LoginSuccessHandler();
+    }
 }

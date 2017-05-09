@@ -3,7 +3,7 @@ package com.tim.gaea2.web.controllers;
 import com.google.common.cache.Cache;
 import com.tim.gaea2.core.utils.GuavaCacheUtils;
 import com.tim.gaea2.core.utils.SecretUtils;
-import com.tim.gaea2.domain.model.User;
+import com.tim.gaea2.domain.model.SysUser;
 import com.tim.gaea2.domain.service.UserInfoService;
 import com.tim.gaea2.web.models.UserModel;
 import org.dozer.spring.DozerBeanMapperFactoryBean;
@@ -43,14 +43,14 @@ public class UserController {
 
     @RequestMapping(value = "/getUserList",method = RequestMethod.GET)
     @ResponseBody
-    public List<User> getUserList(){
-        List<User> userVOs = userInfoService.getAllUserVOs();
+    public List<SysUser> getUserList(){
+        List<SysUser> userVOs = userInfoService.getAllUserVOs();
         return userVOs;
     }
 
     @RequestMapping("/view")
     public String view(int id,Model model){
-        User userVO = userInfoService.getUserVoByUserId(id);
+        SysUser userVO = userInfoService.getUserVoByUserId(id);
         model.addAttribute("User",userVO);
         return "users/view";
     }
@@ -60,7 +60,7 @@ public class UserController {
 
         Cache<String,Object> cache = GuavaCacheUtils.getCache();
 
-        User userVO = (User)cache.get(Integer.toString(id),()->{
+        SysUser userVO = (SysUser)cache.get(Integer.toString(id),()->{
             return userInfoService.getUserVoByUserId(id);
         });
         model.addAttribute("User",userVO);
@@ -86,7 +86,7 @@ public class UserController {
             mapper = dozerBean.getObject();
         }catch (Exception ex){}
 
-        User userVO = mapper.map(userModel,User.class);
+        SysUser userVO = mapper.map(userModel,SysUser.class);
         userVO.setPassword(pwd);
         userInfoService.addUserVO(userVO);
 
