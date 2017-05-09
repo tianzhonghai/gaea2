@@ -54,7 +54,7 @@ public class CustomSecurityInterceptorFilter extends AbstractSecurityInterceptor
     }
 
     public void invoke(FilterInvocation fileInvocation) throws IOException, ServletException{
-        System.out.println("filter..........................");
+        System.out.println("filter.........................."+fileInvocation.getRequestUrl());
         InterceptorStatusToken token = super.beforeInvocation(fileInvocation);
         try{
             fileInvocation.getChain().doFilter(fileInvocation.getRequest(), fileInvocation.getResponse());
