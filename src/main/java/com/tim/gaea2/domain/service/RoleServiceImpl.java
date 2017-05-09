@@ -1,7 +1,7 @@
 package com.tim.gaea2.domain.service;
 
+import com.tim.gaea2.domain.entity.RoleAndPermissionPO;
 import com.tim.gaea2.domain.entity.RolePermissionPO;
-import com.tim.gaea2.domain.entity.RolePermissionWithUrlPO;
 import com.tim.gaea2.domain.repository.RoleMapper;
 import com.tim.gaea2.domain.repository.RolePermissionPOMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +18,13 @@ public class RoleServiceImpl implements RoleService{
     @Autowired
     private RoleMapper roleMapper;
 
-    public List<RolePermissionWithUrlPO> getAllRoleResources() {
-        List<RolePermissionWithUrlPO> list = roleMapper.selectAllRolePermissions();
+    public List<RoleAndPermissionPO> getAllRoleResources() {
+        List<RoleAndPermissionPO> list = roleMapper.selectAllRolePermissions();
         return list;
+    }
+
+    @Override
+    public List<RoleAndPermissionPO> GetRoleResourcesByRoleId(int roleId) {
+        return null;
     }
 }

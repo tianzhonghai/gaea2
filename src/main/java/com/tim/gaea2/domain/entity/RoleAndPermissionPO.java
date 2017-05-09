@@ -3,7 +3,7 @@ package com.tim.gaea2.domain.entity;
 /**
  * Created by tianzhonghai on 2017/5/8.
  */
-public class RolePermissionWithUrlPO {
+public class RoleAndPermissionPO {
     private Long roleId;
 
     private Long permissionId;
