@@ -8,5 +8,5 @@ import java.util.List;
  * Created by tianzhonghai on 2017/5/8.
  */
 public interface RoleMapper {
-    List<RoleAndPermissionPO> selectAllRolePermissions();
+    List<RoleAndPermissionPO> selectRolePermissionsByRoleIds(long[] roleIds);
 }

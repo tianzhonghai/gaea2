@@ -9,7 +9,5 @@ import java.util.List;
  * Created by tianzhonghai on 2017/5/8.
  */
 public interface RoleService {
-    List<RoleAndPermissionPO> getAllRoleResources();
-
-    List<RoleAndPermissionPO> GetRoleResourcesByRoleId(int roleId);
+    List<RoleAndPermissionPO> getRolePermissionsByRoleIds(long[] roleIds);
 }

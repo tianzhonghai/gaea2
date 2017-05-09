@@ -18,13 +18,8 @@ public class RoleServiceImpl implements RoleService{
     @Autowired
     private RoleMapper roleMapper;
 
-    public List<RoleAndPermissionPO> getAllRoleResources() {
-        List<RoleAndPermissionPO> list = roleMapper.selectAllRolePermissions();
+    public List<RoleAndPermissionPO> getRolePermissionsByRoleIds(long[] roleIds) {
+        List<RoleAndPermissionPO> list = roleMapper.selectRolePermissionsByRoleIds(roleIds);
         return list;
-    }
-
-    @Override
-    public List<RoleAndPermissionPO> GetRoleResourcesByRoleId(int roleId) {
-        return null;
     }
 }
