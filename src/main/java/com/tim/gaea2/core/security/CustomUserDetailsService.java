@@ -25,20 +25,12 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
 
-        SysUser userVO = userInfoService.getUserVoByUserName(s);
-        if(userVO == null){
+        SysUser sysUser = userInfoService.getUserVoByUserName(s);
+        if(sysUser == null){
             throw new UsernameNotFoundException("用户名不存在");
         }
 
-//        LoginUser loginUser = new LoginUser(userVO);
-//        return loginUser;
-        List<GrantedAuthority> auths = new ArrayList<>();
-
-        List<UserRolePO> list = userVO.getAllUserRolePOs();
-        for (UserRolePO po : list){
-            auths.add(new SimpleGrantedAuthority(po.getRoleId().toString()));
-        }
-        User user = new User(userVO.getUserName(),userVO.getPassword(),true,true,true,true,auths);
-        return user;
+        LoginUser loginUser = new LoginUser(sysUser);
+        return loginUser;
     }
 }
