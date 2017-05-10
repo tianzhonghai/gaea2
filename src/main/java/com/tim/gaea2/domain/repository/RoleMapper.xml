@@ -16,7 +16,7 @@
           #{item}
         </foreach>
     </select>
-    <select id="selectRolePermissionByUserId" parameterType="userId" resultMap="roleAndPermissionPO">
+    <select id="selectRolePermissionByUserId" parameterType="long" resultMap="roleAndPermissionPO">
         SELECT rp.role_id,rp.permission_id,p.permission_sign FROM `role_permission` AS rp JOIN `permission` AS p ON rp.permission_id = p.id
         WHERE rp.role_id IN (SELECT role_id FROM user_role WHERE user_id = #{userId})
     </select>

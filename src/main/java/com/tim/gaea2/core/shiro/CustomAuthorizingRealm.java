@@ -41,27 +41,33 @@ public class CustomAuthorizingRealm extends AuthorizingRealm {
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-        SysUser user = (SysUser) principals.getPrimaryPrincipal();
-        SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
-        //Set<String> shiroPermissions = new HashSet<>();
-        Set<String> roleSet = new HashSet<>();
+        //SysUser user = (SysUser)super.getAvailablePrincipal(principals);
+        //SysUser user = (SysUser) principals.getPrimaryPrincipal();
+        String username = (String) principals.fromRealm(getName()).iterator().next();
+        SysUser user = userService.getUserVoByUserName(username);
+        if(user != null){
+            SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
+            //Set<String> shiroPermissions = new HashSet<>();
+            Set<String> roleSet = new HashSet<>();
 
-        List<RoleAndPermissionPO> roles = roleService.getRolePermissionByUserId(user.getId());
-        for (RoleAndPermissionPO  roleAndPermissionPO : roles) {
-            if(! roleSet.contains(roleAndPermissionPO.getRoleId().toString())) {
-                roleSet.add(roleAndPermissionPO.getRoleId().toString());
+            List<RoleAndPermissionPO> roles = roleService.getRolePermissionByUserId(user.getId());
+            for (RoleAndPermissionPO  roleAndPermissionPO : roles) {
+                if(! roleSet.contains(roleAndPermissionPO.getRoleId().toString())) {
+                    roleSet.add(roleAndPermissionPO.getRoleId().toString());
+                }
+                //shiroPermissions.add(roleAndPermissionPO.getPermissionSign());
             }
-
-            //shiroPermissions.add(roleAndPermissionPO.getPermissionSign());
+            authorizationInfo.setRoles(roleSet);
+            //authorizationInfo.setStringPermissions(shiroPermissions); //权限集合，基于角色的可以不设置
+            return authorizationInfo;
         }
 
-        authorizationInfo.setRoles(roleSet);
-        //authorizationInfo.setStringPermissions(shiroPermissions); //权限集合，基于角色的可以不设置
-        return authorizationInfo;
+        return null;
     }
 
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
+        UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken )token;
         String username = (String) token.getPrincipal();
         SysUser user = userService.getUserVoByUserName(username);
         String password = new String((char[]) token.getCredentials());
@@ -79,7 +85,7 @@ public class CustomAuthorizingRealm extends AuthorizingRealm {
 //            throw new LockedAccountException("账号已被锁定,请联系管理员");
 //        }
 
-        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(user, password, getName());
+        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(user, SecretUtils.MD5(password), getName());
 
         return info;
     }

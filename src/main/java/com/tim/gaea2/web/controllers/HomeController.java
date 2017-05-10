@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 /**
  * Created by tianzhonghai on 2017/5/4.
  */
-@Controller
+@Controller("/home")
 public class HomeController {
-    @RequestMapping("/")
+    @RequestMapping("/index")
     public String index(){
         return "home/index";
     }
