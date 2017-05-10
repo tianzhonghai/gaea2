@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <meta charset="UTF-8" />
     <title>Test</title>
@@ -12,7 +12,11 @@
 <div th:include="shared/top :: top"></div>
 
 <div class="container body-content">
-    你好：张三
+    <p shiro:guest="">Please <a href="login.html">login</a></p>
+    <p shiro:authenticated="">
+        Hello, <span shiro:principal=""></span>, how are you today?
+    </p>
+
 </div>
 
 </body>
