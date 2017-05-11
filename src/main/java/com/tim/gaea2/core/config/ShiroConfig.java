@@ -1,3 +1,5 @@
+package com.tim.gaea2.core.config;
+
 import com.tim.gaea2.core.shiro.CustomAuthorizingRealm;
 import com.tim.gaea2.core.shiro.CustomHashedCredentialsMatcher;
 import org.apache.shiro.authc.credential.CredentialsMatcher;
@@ -7,7 +9,6 @@ import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
-import org.apache.shiro.web.filter.authz.RolesAuthorizationFilter;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -86,11 +87,9 @@ public class ShiroConfig {
         //shiroFilterFactoryBean.setUnauthorizedUrl("/login");
         shiroFilterFactoryBean.setUnauthorizedUrl("/403"); //认证未通过的页面，即未经授权页面
 
-        //Map<String, Filter> filters = new LinkedHashMap<>();
-        //filters.put("authc", new FormAuthenticationFilter());
-        //filters.put("rbac", new RbacAuthenticationFilter());
-        //filters.put("roles", new RolesAuthorizationFilter());
-        //shiroFilterFactoryBean.setFilters(filters);
+//        Map<String, Filter> filters = new LinkedHashMap<>();
+//        filters.put("authc", new FormAuthenticationFilter());
+//        shiroFilterFactoryBean.setFilters(filters);
 
         loadShiroFilterChain(shiroFilterFactoryBean);
         return shiroFilterFactoryBean;
@@ -113,9 +112,11 @@ public class ShiroConfig {
     }
 
     private void loadShiroFilterChain(ShiroFilterFactoryBean shiroFilterFactoryBean){
+        ///Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
+
         filterChainDefinitionMap.put("/login", "anon");
         filterChainDefinitionMap.put("/user/**", "authc");
-        filterChainDefinitionMap.put("/**", "authc");//anon 可以理解为不拦截
+        filterChainDefinitionMap.put("/**", "authc");
 
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
     }
