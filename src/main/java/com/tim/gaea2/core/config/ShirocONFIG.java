@@ -9,6 +9,7 @@ import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
+import org.apache.shiro.web.filter.authz.RolesAuthorizationFilter;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -87,13 +88,11 @@ public class ShiroConfig {
         //shiroFilterFactoryBean.setUnauthorizedUrl("/login");
         shiroFilterFactoryBean.setUnauthorizedUrl("/403"); //认证未通过的页面，即未经授权页面
 
-        Map<String, Filter> filters = new LinkedHashMap<>();
-        filters.put("authc", new FormAuthenticationFilter());
-        shiroFilterFactoryBean.setFilters(filters);
-
-//        filterChainDefinitionMap.put("/login", "authc");
-//        filterChainDefinitionMap.put("/user/**", "perms[user:view]");
-//        shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
+        //Map<String, Filter> filters = new LinkedHashMap<>();
+        //filters.put("authc", new FormAuthenticationFilter());
+        //filters.put("rbac", new RbacAuthenticationFilter());
+        //filters.put("roles", new RolesAuthorizationFilter());
+        //shiroFilterFactoryBean.setFilters(filters);
 
         loadShiroFilterChain(shiroFilterFactoryBean);
         return shiroFilterFactoryBean;
