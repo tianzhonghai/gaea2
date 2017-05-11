@@ -47,18 +47,18 @@ public class CustomAuthorizingRealm extends AuthorizingRealm {
         //SysUser user = userService.getUserVoByUserName(username);
         if(user != null){
             SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
-            //Set<String> shiroPermissions = new HashSet<>();
+            Set<String> shiroPermissions = new HashSet<>();
             Set<String> roleSet = new HashSet<>();
 
             List<RoleAndPermissionPO> roles = roleService.getRolePermissionByUserId(user.getId());
             for (RoleAndPermissionPO  roleAndPermissionPO : roles) {
-                if(! roleSet.contains(roleAndPermissionPO.getRoleId().toString())) {
-                    roleSet.add(roleAndPermissionPO.getRoleId().toString());
-                }
-                //shiroPermissions.add(roleAndPermissionPO.getPermissionSign());
+//                if(! roleSet.contains(roleAndPermissionPO.getRoleId().toString())) {
+//                    roleSet.add(roleAndPermissionPO.getRoleId().toString());
+//                }
+                shiroPermissions.add(roleAndPermissionPO.getPermissionSign());
             }
-            authorizationInfo.setRoles(roleSet);
-            //authorizationInfo.setStringPermissions(shiroPermissions); //权限集合，基于角色的可以不设置
+            //authorizationInfo.setRoles(roleSet);
+            authorizationInfo.setStringPermissions(shiroPermissions); //权限集合，基于角色的可以不设置
             return authorizationInfo;
         }
 
