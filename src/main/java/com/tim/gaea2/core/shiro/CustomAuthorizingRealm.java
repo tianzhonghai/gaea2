@@ -42,9 +42,9 @@ public class CustomAuthorizingRealm extends AuthorizingRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         //SysUser user = (SysUser)super.getAvailablePrincipal(principals);
-        //SysUser user = (SysUser) principals.getPrimaryPrincipal();
-        String username = (String) principals.fromRealm(getName()).iterator().next();
-        SysUser user = userService.getUserVoByUserName(username);
+        SysUser user = (SysUser) principals.getPrimaryPrincipal();
+        //String username = (String) principals.fromRealm(getName()).iterator().next();
+        //SysUser user = userService.getUserVoByUserName(username);
         if(user != null){
             SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
             //Set<String> shiroPermissions = new HashSet<>();

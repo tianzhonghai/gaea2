@@ -6,6 +6,7 @@ import com.tim.gaea2.core.utils.SecretUtils;
 import com.tim.gaea2.domain.model.SysUser;
 import com.tim.gaea2.domain.service.UserInfoService;
 import com.tim.gaea2.web.models.UserModel;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.dozer.spring.DozerBeanMapperFactoryBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +36,7 @@ public class UserController {
     private DozerBeanMapperFactoryBean dozerBean;
 
     @RequestMapping("/index")
+    @RequiresPermissions("user:index")
     public String index(){
 //        int a = 0,b = 0,c = 0;
 //        a = b / c;
@@ -43,11 +45,13 @@ public class UserController {
 
     @RequestMapping(value = "/getUserList",method = RequestMethod.GET)
     @ResponseBody
+    @RequiresPermissions("user:index")
     public List<SysUser> getUserList(){
         List<SysUser> userVOs = userInfoService.getAllUserVOs();
         return userVOs;
     }
 
+    @RequiresPermissions("user:view")
     @RequestMapping("/view")
     public String view(int id,Model model){
         SysUser userVO = userInfoService.getUserVoByUserId(id);
@@ -55,6 +59,7 @@ public class UserController {
         return "users/view";
     }
 
+    @RequiresPermissions("user:detail")
     @RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
     public String detail(@PathVariable int id, Model model) throws Exception{
 
@@ -67,11 +72,13 @@ public class UserController {
         return "users/view";
     }
 
+    @RequiresPermissions("user:add")
     @RequestMapping("/add")
     public String add(){
         return "users/add";
     }
 
+    @RequiresPermissions("user:add")
     @RequestMapping(value = "/add",method = RequestMethod.POST)
     public String add(UserModel userModel, Model model){
         String pwd = "111111";
