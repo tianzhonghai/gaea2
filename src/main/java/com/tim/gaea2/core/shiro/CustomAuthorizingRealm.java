@@ -30,7 +30,8 @@ public class CustomAuthorizingRealm extends AuthorizingRealm {
         setAuthenticationTokenClass(UsernamePasswordToken.class);
 
         //FIXME: 暂时禁用Cache
-        setCachingEnabled(false);
+        //super.setCachingEnabled(false);
+        super.setCachingEnabled(true);
     }
 
     @Autowired
