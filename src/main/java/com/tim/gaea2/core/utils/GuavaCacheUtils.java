@@ -20,4 +20,8 @@ public class GuavaCacheUtils {
     public static Cache<String,Object> getCache() {
         return cache;
     }
+
+
+    // return Optional.ofNullable((Map<String,V>) productCacheContainer.getAllPresent(cacheKeyList)).orElse(null);
+
 }
