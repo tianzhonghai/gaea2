@@ -38,8 +38,8 @@ public class UserController {
     @RequestMapping("/index")
     @RequiresPermissions("user:index")
     public String index(){
-//        int a = 0,b = 0,c = 0;
-//        a = b / c;
+        int a = 0,b = 0,c = 0;
+        a = b / c;
         return "users/index";
     }
 

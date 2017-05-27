@@ -2,12 +2,13 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" />
-    <title>Test</title>
+    <title>gaea2</title>
     <link href="http://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" />
 </head>
 <body>
 <div class="container">
-   test
+    <div th:text="${url}"></div>
+    <div th:text="${exception.message}"></div>
 </div>
 
 </body>
