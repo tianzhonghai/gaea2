@@ -13,4 +13,11 @@ public class HomeController {
     public String index(){
         return "home/index";
     }
+
+    @RequestMapping("/calc")
+    public String calc(){
+        int a = 0,b = 0,c = 0;
+        a = b / c;
+        return "home/test";
+    }
 }
