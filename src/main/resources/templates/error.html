@@ -7,8 +7,15 @@
 </head>
 <body>
 <div class="container">
-    <div th:text="${url}"></div>
-    <div th:text="${exception.message}"></div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div th:text="${url}"></div>
+            <div th:text="${exception.message}"></div>
+            <div>
+                <a href="/home/index">go home</a>
+            </div>
+        </div>
+    </div>
 </div>
 
 </body>
