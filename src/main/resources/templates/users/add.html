@@ -1,16 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="shared/layout">
 <head>
-    <meta charset="UTF-8" />
-    <title>Title</title>
-    <link href="http://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="/css/main.css" rel="stylesheet" />
-    <script src="http://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="   crossorigin="anonymous"></script>
+
 </head>
 <body>
-
-<div th:include="shared/top :: top"></div>
-<div class="container body-content">
+<div class="container body-content" layout:fragment="content">
     <div class="row">
         <div class="col-lg-12 col-md-12">
             <form method="post" action="/user/add">
