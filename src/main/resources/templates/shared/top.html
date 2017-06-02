@@ -14,7 +14,17 @@
                 <li><a href="/user/index">用户列表</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="/home/index" shiro:principal="" property="userName"></a></li>
+                <li id="fat-menu" class="dropdown">
+                    <a id="drop3" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        <span shiro:principal="" property="userName"></span>
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="drop3">
+                        <li><a href="#">Profile</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="/logout">退出</a></li>
+                    </ul>
+                </li>
                 <li><a href="/logout">退出</a></li>
             </ul>
         </div>
