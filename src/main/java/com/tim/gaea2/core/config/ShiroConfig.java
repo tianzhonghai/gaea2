@@ -1,5 +1,6 @@
 package com.tim.gaea2.core.config;
 
+import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 import com.tim.gaea2.core.shiro.CustomAuthorizingRealm;
 import com.tim.gaea2.core.shiro.CustomHashedCredentialsMatcher;
 import org.apache.shiro.authc.credential.CredentialsMatcher;
@@ -119,5 +120,15 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/**", "authc");
 
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
+    }
+
+
+    /**
+     * ShiroDialect，为了在thymeleaf里使用shiro的标签的bean
+     * @return
+     */
+    @Bean
+    public ShiroDialect shiroDialect() {
+        return new ShiroDialect();
     }
 }
