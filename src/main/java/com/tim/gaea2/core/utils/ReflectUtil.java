@@ -1,6 +1,5 @@
 package com.tim.gaea2.core.utils;
 
-import com.sun.tools.javac.code.Attribute;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
