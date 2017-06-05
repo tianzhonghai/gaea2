@@ -19,13 +19,13 @@ public class CustomHashedCredentialsMatcher extends HashedCredentialsMatcher {
     @Override
     public boolean doCredentialsMatch(AuthenticationToken token, AuthenticationInfo info) {
         //String userno = (String) token.getPrincipal();
-        SysUser sysUser = (SysUser)info.getPrincipals().getPrimaryPrincipal();
+        ShiroUser shiroUser = (ShiroUser)info.getPrincipals().getPrimaryPrincipal();
         boolean matches = super.doCredentialsMatch(token, info);
         if (matches) {
             // 根据登录名查询用户
             Subject subject = SecurityUtils.getSubject();
             Session session = subject.getSession();
-            session.setAttribute("user", sysUser);
+            session.setAttribute("user", shiroUser);
         }
         return matches;
     }

@@ -86,7 +86,10 @@ public class CustomAuthorizingRealm extends AuthorizingRealm {
 //            throw new LockedAccountException("账号已被锁定,请联系管理员");
 //        }
 
-        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(user, SecretUtils.MD5(password), getName());
+        ShiroUser shiroUser = new ShiroUser();
+        shiroUser.setId(user.getId());
+        shiroUser.setUserName(user.getUserName());
+        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(shiroUser, SecretUtils.MD5(password), getName());
 
         return info;
     }

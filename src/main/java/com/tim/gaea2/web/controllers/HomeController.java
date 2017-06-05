@@ -1,5 +1,6 @@
 package com.tim.gaea2.web.controllers;
 
+import com.tim.gaea2.core.shiro.ShiroUser;
 import com.tim.gaea2.domain.model.SysUser;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Controller;
@@ -15,7 +16,7 @@ public class HomeController {
     @RequestMapping("/index")
     public String index(Model model){
         Object obj = SecurityUtils.getSubject().getPrincipal();
-        SysUser current = (SysUser)obj;
+        ShiroUser current = (ShiroUser)obj;
         model.addAttribute("User",current);
         return "home/index";
     }
