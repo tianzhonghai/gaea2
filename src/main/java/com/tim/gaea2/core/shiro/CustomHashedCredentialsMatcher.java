@@ -23,9 +23,9 @@ public class CustomHashedCredentialsMatcher extends HashedCredentialsMatcher {
         boolean matches = super.doCredentialsMatch(token, info);
         if (matches) {
             // 根据登录名查询用户
-            Subject subject = SecurityUtils.getSubject();
-            Session session = subject.getSession();
-            session.setAttribute("user", shiroUser);
+//            Subject subject = SecurityUtils.getSubject();
+//            Session session = subject.getSession();
+//            session.setAttribute("user", shiroUser);
         }
         return matches;
     }
