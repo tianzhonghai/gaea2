@@ -1,8 +1,22 @@
+body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+    background-color: #ecedf1;
+    font-family: 微软雅黑;
+}
+
 .btn {
     border-radius:0;
 }
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
-    padding-top: 50px;
+}
+.navbar-inverse{
+    background-color: #2389d0;
+    border-color: #2389d0;
+}
+
+.navbar-inverse .navbar-nav>li>a {
+    color: #fff;
 }

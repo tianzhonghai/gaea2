@@ -1,20 +1,21 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="shared/layout">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="shared/layout">
 <head>
 
 </head>
 <body>
 
 <div class="container body-content" layout:fragment="content">
-    <div class="row">
+    <div class="row" style="margin-top:15px;">
         <div class="col-lg-12">
-            <span th:text="${User.userName}"></span>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-lg-12">
-
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Panel title</h3>
+                </div>
+                <div class="panel-body">
+                    <span th:text="${User.userName}"></span>
+                </div>
+            </div>
         </div>
     </div>
 </div>
