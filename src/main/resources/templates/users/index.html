@@ -39,8 +39,8 @@
                     <table class="table table-bordered" id="tbUserList">
                         <thead>
                         <tr>
+                            <th>ID</th>
                             <th>姓名</th>
-                            <th>密码</th>
                             <th>创建时间</th>
                         </tr>
                         </thead>
@@ -64,7 +64,7 @@
         $.get('/user/getUserList?rnd='+new Date().getTime(),{},function(data){
             $.each(data,function(index,item){
                 //$('#tbUserList tbody').append('<tr><td><a href="/user/view?id='+item.id+'">'+item.id+'</a></td><td>'+item.userName+'</td><td>'+item.password+'</td></tr>')
-                $('#tbUserList tbody').append('<tr><td><a href="/user/detail/'+item.id+'">'+item.id+'</a></td><td>'+item.userName+'</td><td>'+item.password+'</td></tr>')
+                $('#tbUserList tbody').append('<tr><td><a href="/user/detail/'+item.id+'">'+item.id+'</a></td><td>'+item.userName+'</td><td>'+item.createTime+'</td></tr>')
             })
         })
     }

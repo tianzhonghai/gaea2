@@ -1,5 +1,6 @@
 package com.tim.gaea2.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.tim.gaea2.core.utils.SpringUtil;
 import com.tim.gaea2.domain.entity.UserRolePO;
 import com.tim.gaea2.domain.service.UserInfoService;
@@ -22,7 +23,7 @@ public class SysUser {
     private String password;
 
     private String state;
-
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
     public Long getId() {
@@ -55,6 +56,14 @@ public class SysUser {
 
     public void setState(String state) {
         this.state = state == null ? null : state.trim();
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
     public List<UserRolePO> getAllUserRolePOs(){
