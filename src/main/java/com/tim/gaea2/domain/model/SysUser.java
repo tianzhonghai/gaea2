@@ -23,7 +23,7 @@ public class SysUser {
     private String password;
 
     private String state;
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+
     private Date createTime;
 
     public Long getId() {

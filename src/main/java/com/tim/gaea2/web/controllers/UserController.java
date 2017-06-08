@@ -6,6 +6,7 @@ import com.tim.gaea2.core.utils.SecretUtils;
 import com.tim.gaea2.domain.model.SysUser;
 import com.tim.gaea2.domain.service.UserInfoService;
 import com.tim.gaea2.web.models.UserModel;
+import com.tim.gaea2.web.models.UserQueryModel;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.dozer.spring.DozerBeanMapperFactoryBean;
 import org.slf4j.Logger;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -44,9 +46,18 @@ public class UserController {
     @RequestMapping(value = "/getUserList",method = RequestMethod.GET)
     @ResponseBody
     @RequiresPermissions("user:index")
-    public List<SysUser> getUserList(){
+    public List<UserQueryModel> getUserList(){
         List<SysUser> userVOs = userInfoService.getAllUserVOs();
-        return userVOs;
+
+        List<UserQueryModel> models = new ArrayList<>();
+        for (SysUser user : userVOs) {
+            UserQueryModel model = new UserQueryModel();
+            model.setId(user.getId());
+            model.setUserName(user.getUserName());
+            model.setCreateTime(user.getCreateTime());
+            models.add(model);
+        }
+        return models;
     }
 
     @RequiresPermissions("user:view")
