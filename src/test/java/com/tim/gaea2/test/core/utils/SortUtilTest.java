@@ -13,11 +13,14 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest(classes = SecretUtils.class)
 @RunWith(SpringRunner.class)
 public class SortUtilTest {
-    @Test
-    public void InsertSort()
-    {
-        int[] a = {32,43,23,13,5};
-        SortUtil.InsertSort(a);
+    int[] a = {32, 43, 23, 13, 5};
 
+    @Test
+    public void InsertSort() {
+        SortUtil.insertSort(a);
+    }
+    @Test
+    public void HellSort() {
+        SortUtil.hellSort(a);
     }
 }
