@@ -1,31 +1,17 @@
 body {
-    padding-top: 50px;
-    padding-bottom: 20px;
-    background-color: #ecedf1;
     font-family: 微软雅黑;
 }
 
 .btn {
     border-radius:0;
 }
-.body-content {
-    padding-left: 15px;
-    padding-right: 15px;
-}
-.navbar-inverse{
-    background-color: #2389d0;
-    border-color: #2389d0;
-}
 
-.navbar-inverse .navbar-nav>li>a {
-    color: #fff;
-}
-
-.navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.open>a:focus, .navbar-inverse .navbar-nav>.open>a:hover{
-    color: #fff;
-    background-color:#2389d0;
-}
-
-.panel{
-    margin-bottom: 15px;
-}
+/*.nav-list>li>a>[class*="fa-"]:first-child {*/
+    /*display: inline-block;*/
+    /*vertical-align:middle;*/
+    /*min-width:30px;*/
+    /*text-align:center;*/
+    /*font-size:18px;*/
+    /*font-weight: normal;*/
+    /*margin-right:2px;*/
+/*}*/
