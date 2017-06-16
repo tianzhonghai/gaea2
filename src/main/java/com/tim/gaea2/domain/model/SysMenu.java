@@ -47,4 +47,24 @@ public class SysMenu {
     public SysMenu() {
         this.subMenus = new ArrayList<>();
     }
+
+    public String toHtml() {
+        StringBuffer sbMenu = new StringBuffer();
+        sbMenu.append("<li>");
+        String menuFmt = "<a href=\"%s\" class=\"dropdown-toggle\"><i class=\"icon-list\"></i><span class=\"menu-text\"> %s </span><b class=\"arrow icon-angle-down\"></b></a>";
+        sbMenu.append(String.format(menuFmt,this.url,this.menuName));
+
+        StringBuffer sbSubMenu = new StringBuffer();
+        if(subMenus != null && subMenus.size() > 0) {
+            sbSubMenu.append("<ul class=\"submenu\">");
+            String fmt = "<li><a href=\"%s\"><i class=\"fa fa-double-angle-right\"></i>%s</a></li>";
+            for (SysSubMenu subMenu: subMenus) {
+                sbSubMenu.append(String.format(fmt,subMenu.getUrl(),subMenu.getMenuName()));
+            }
+            sbSubMenu.append("</ul>");
+        }
+        sbMenu.append(sbSubMenu.toString());
+        sbMenu.append("</li>");
+        return sbMenu.toString();
+    }
 }

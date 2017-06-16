@@ -1,14 +1,16 @@
 package com.tim.gaea2.core.component.processor.attribute;
 
+import com.tim.gaea2.core.component.GeaeHelper;
 import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.processor.attr.AbstractTextChildModifierAttrProcessor;
+import org.thymeleaf.processor.attr.AbstractUnescapedTextChildModifierAttrProcessor;
 
 /**
  * 左侧菜单
  * Created by tianzhonghai on 2017/6/16.
  */
-public class LeftMenuAttrProcessor extends AbstractTextChildModifierAttrProcessor {
+public class LeftMenuAttrProcessor extends AbstractUnescapedTextChildModifierAttrProcessor {
 
     public static final LeftMenuAttrProcessor create() {
         return new LeftMenuAttrProcessor();
@@ -23,7 +25,7 @@ public class LeftMenuAttrProcessor extends AbstractTextChildModifierAttrProcesso
 
     @Override
     protected String getText(Arguments arguments, Element element, String s) {
-        return null;
+        return GeaeHelper.buildUserMenu("");
     }
 
     @Override
