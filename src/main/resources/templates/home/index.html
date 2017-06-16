@@ -5,18 +5,20 @@
 </head>
 <body>
 
-<div class="container body-content" layout:fragment="content">
-    <div class="row" style="margin-top:15px;">
-        <div class="col-lg-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Panel title</h3>
-                </div>
-                <div class="panel-body">
-                    <span th:text="${User.userName}"></span>
-                </div>
-            </div>
-        </div>
+<div layout:fragment="content">
+    <div class="alert alert-block alert-success">
+        <button type="button" class="close" data-dismiss="alert">
+            <i class="fa fa-remove"></i>
+        </button>
+
+        <i class="fa fa-check green"></i>
+
+        欢迎使用
+        <strong class="green">
+            Ace后台管理系统
+            <small>(v1.2)</small>
+        </strong>
+        ,轻量级好用的后台管理系统模版.
     </div>
 </div>
 
