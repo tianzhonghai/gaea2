@@ -6,12 +6,12 @@ body {
     border-radius:0;
 }
 
-/*.nav-list>li>a>[class*="fa-"]:first-child {*/
-    /*display: inline-block;*/
-    /*vertical-align:middle;*/
-    /*min-width:30px;*/
-    /*text-align:center;*/
-    /*font-size:18px;*/
-    /*font-weight: normal;*/
-    /*margin-right:2px;*/
-/*}*/
+.nav-list>li>a>[class*="fa-"]:first-child {
+    display: inline-block;
+    vertical-align:middle;
+    min-width:30px;
+    text-align:center;
+    font-size:18px;
+    font-weight: normal;
+    margin-right:2px;
+}
