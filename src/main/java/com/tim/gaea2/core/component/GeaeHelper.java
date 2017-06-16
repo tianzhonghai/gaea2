@@ -4,7 +4,10 @@ import com.tim.gaea2.core.shiro.ShiroUser;
 import com.tim.gaea2.core.utils.SpringUtil;
 import com.tim.gaea2.domain.model.SysMenu;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.web.util.SavedRequest;
 import org.springframework.http.HttpRequest;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -23,6 +26,10 @@ public class GeaeHelper {
 
         List<SysMenu> menus = (List<SysMenu>)SecurityUtils.getSubject().getSession().getAttribute("leftMenu");
         if(menus == null)return  "";
+
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+
+        currentUrl = request.getServletPath();
 
         StringBuffer sb = new StringBuffer();
         sb.append("<ul class=\"nav nav-list\">");
