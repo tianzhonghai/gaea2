@@ -10,6 +10,7 @@ public class SysMenu {
     private int menuId;
     private String menuName;
     private String url;
+    private String iconClass;
     private List<SysSubMenu> subMenus;
 
     public int getMenuId() {
@@ -48,11 +49,24 @@ public class SysMenu {
         this.subMenus = new ArrayList<>();
     }
 
+    public String getIconClass() {
+        return iconClass;
+    }
+
+    public void setIconClass(String iconClass) {
+        this.iconClass = iconClass;
+    }
+
     public String toHtml() {
         StringBuffer sbMenu = new StringBuffer();
         sbMenu.append("<li>");
-        String menuFmt = "<a href=\"%s\" class=\"dropdown-toggle\"><i class=\"icon-list\"></i><span class=\"menu-text\"> %s </span><b class=\"arrow icon-angle-down\"></b></a>";
-        sbMenu.append(String.format(menuFmt,this.url,this.menuName));
+        String menuFmt = "<a href=\"%s\" %s><i class=\"%s\"></i><span class=\"menu-text\"> %s </span><b class=\"arrow icon-angle-down\"></b></a>";
+
+        String dropdownClass="";
+        if(this.subMenus != null && this.subMenus.size() > 0){
+            dropdownClass = "class=\"dropdown-toggle\"";
+        }
+        sbMenu.append(String.format(menuFmt,this.url,dropdownClass,this.iconClass,this.menuName));
 
         StringBuffer sbSubMenu = new StringBuffer();
         if(subMenus != null && subMenus.size() > 0) {

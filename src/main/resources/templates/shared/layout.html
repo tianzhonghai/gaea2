@@ -45,31 +45,7 @@
                 try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
             </script>
 
-            <ul class="nav nav-list">
-                <li>
-                    <a href="/home/index">
-                        <i class="fa fa-dashboard"></i>
-                        <span class="menu-text"> 控制台 </span>
-                    </a>
-                </li>
-                <li class="active open" th:each="menu : ${session.leftMenu}">
-                    <a href="#" class="dropdown-toggle">
-                        <i class="fa fa-user"></i>
-                        <span class="menu-text" th:text="${menu.menuName}"> 用户管理 </span>
-
-                        <b class="arrow fa fa-angle-down"></b>
-                    </a>
-
-                    <ul class="submenu" th:each="submenu : ${menu.subMenus}">
-                        <li>
-                            <a th:href="${submenu.url}">
-                                <i class="fa fa-double-angle-right"></i>
-                                <span th:text="${submenu.menuName}"></span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
+            <div gaea:leftMenu=""></div>
 
             <div class="sidebar-collapse" id="sidebar-collapse">
                 <i class="fa fa-double-angle-left" data-icon1="icon-double-angle-left" data-icon2="icon-double-angle-right"></i>

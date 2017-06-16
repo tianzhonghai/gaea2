@@ -33,13 +33,21 @@ public class CustomHashedCredentialsMatcher extends HashedCredentialsMatcher {
             List<SysMenu> menus = new ArrayList<>();
             SysMenu menu = new SysMenu();
             menu.setMenuId(1);
+            menu.setMenuName("控制台");
+            menu.setUrl("/home/index");
+            menu.setIconClass("fa fa-dashboard");
+            menus.add(menu);
+
+            menu = new SysMenu();
+            menu.setMenuId(2);
             menu.setMenuName("用户管理");
+            menu.setIconClass("fa fa-user");
             menu.setUrl("");
 
             SysSubMenu submenu = new SysSubMenu();
-            submenu.setMenuId(2);
+            submenu.setMenuId(3);
             submenu.setMenuName("用户查询");
-            submenu.setParentMenuId(1);
+            submenu.setParentMenuId(2);
             submenu.setUrl("/user/index");
             menu.getSubMenus().add(submenu);
 

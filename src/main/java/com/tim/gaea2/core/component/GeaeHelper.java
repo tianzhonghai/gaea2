@@ -25,10 +25,11 @@ public class GeaeHelper {
         if(menus == null)return  "";
 
         StringBuffer sb = new StringBuffer();
+        sb.append("<ul class=\"nav nav-list\">");
         for (SysMenu menu : menus) {
             sb.append(menu.toHtml());
         }
-
+        sb.append("</ul>");
         return sb.toString();
     }
 }

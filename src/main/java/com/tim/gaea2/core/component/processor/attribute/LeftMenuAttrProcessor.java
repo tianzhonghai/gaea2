@@ -25,6 +25,7 @@ public class LeftMenuAttrProcessor extends AbstractUnescapedTextChildModifierAtt
 
     @Override
     protected String getText(Arguments arguments, Element element, String s) {
+        
         return GeaeHelper.buildUserMenu("");
     }
 
