@@ -32,10 +32,13 @@ public class LeftMenuElementProcessor extends AbstractUnescapedTextChildModifier
         return PRECEDENCE;
     }
 
-
-
     @Override
     protected String getText(Arguments arguments, Element element) {
-        return GeaeHelper.buildUserMenu("");
+        final String url = element.getAttributeValue("url");
+
+        if (element.hasAttribute("url")) {
+            element.removeAttribute("url");
+        }
+        return GeaeHelper.buildUserMenu(url);
     }
 }

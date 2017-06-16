@@ -57,9 +57,15 @@ public class SysMenu {
         this.iconClass = iconClass;
     }
 
-    public String toHtml() {
+    public String toHtml(String currentUrl) {
         StringBuffer sbMenu = new StringBuffer();
-        sbMenu.append("<li>");
+        sbMenu.append("<li");
+
+        if(this.url.equalsIgnoreCase(currentUrl)){
+            sbMenu.append("class=\"active open\"");
+        }
+        sbMenu.append(">");
+
         String menuFmt = "<a href=\"%s\" %s><i class=\"%s\"></i><span class=\"menu-text\"> %s </span><b class=\"arrow icon-angle-down\"></b></a>";
 
         String dropdownClass="";

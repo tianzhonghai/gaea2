@@ -27,7 +27,7 @@ public class GeaeHelper {
         StringBuffer sb = new StringBuffer();
         sb.append("<ul class=\"nav nav-list\">");
         for (SysMenu menu : menus) {
-            sb.append(menu.toHtml());
+            sb.append(menu.toHtml(currentUrl));
         }
         sb.append("</ul>");
         return sb.toString();
