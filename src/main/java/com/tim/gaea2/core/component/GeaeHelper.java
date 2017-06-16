@@ -16,11 +16,10 @@ import java.util.List;
  * Created by tianzhonghai on 2017/6/16.
  */
 public class GeaeHelper {
-    public static String buildUserMenu(String currentUrl) {
+    public static String buildUserMenu() {
 //        if (SecurityUtils.getSubject() == null) {
 //            return "";
 //        }
-//
 //        ShiroUser principal = (ShiroUser)SecurityUtils.getSubject().getPrincipal();
 //        long userId =principal.getId();
 
@@ -29,7 +28,7 @@ public class GeaeHelper {
 
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 
-        currentUrl = request.getServletPath();
+        String currentUrl= request.getServletPath();
 
         StringBuffer sb = new StringBuffer();
         sb.append("<ul class=\"nav nav-list\">");

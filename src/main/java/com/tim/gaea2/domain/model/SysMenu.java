@@ -58,12 +58,30 @@ public class SysMenu {
     }
 
     public String toHtml(String currentUrl) {
+        StringBuffer sbSubMenu = new StringBuffer();
+        boolean isActive = false;
+        if(subMenus != null && subMenus.size() > 0) {
+            sbSubMenu.append("<ul class=\"submenu\">");
+            String fmt = "<li><a href=\"%s\"><i class=\"fa fa-double-angle-right\"></i>%s</a></li>";
+            for (SysSubMenu subMenu: subMenus) {
+                sbSubMenu.append(String.format(fmt,subMenu.getUrl(),subMenu.getMenuName()));
+                if(subMenu.getUrl().equalsIgnoreCase(currentUrl)){
+                    isActive=true;
+                }
+            }
+            sbSubMenu.append("</ul>");
+        }
+
         StringBuffer sbMenu = new StringBuffer();
         sbMenu.append("<li");
 
         if(this.url.equalsIgnoreCase(currentUrl)){
-            sbMenu.append("class=\"active open\"");
+            sbMenu.append(" class=\"active open\"");
         }
+        if(isActive){
+            sbMenu.append(" class=\"active open\"");
+        }
+
         sbMenu.append(">");
 
         String menuFmt = "<a href=\"%s\" %s><i class=\"%s\"></i><span class=\"menu-text\"> %s </span><b class=\"arrow icon-angle-down\"></b></a>";
@@ -74,15 +92,6 @@ public class SysMenu {
         }
         sbMenu.append(String.format(menuFmt,this.url,dropdownClass,this.iconClass,this.menuName));
 
-        StringBuffer sbSubMenu = new StringBuffer();
-        if(subMenus != null && subMenus.size() > 0) {
-            sbSubMenu.append("<ul class=\"submenu\">");
-            String fmt = "<li><a href=\"%s\"><i class=\"fa fa-double-angle-right\"></i>%s</a></li>";
-            for (SysSubMenu subMenu: subMenus) {
-                sbSubMenu.append(String.format(fmt,subMenu.getUrl(),subMenu.getMenuName()));
-            }
-            sbSubMenu.append("</ul>");
-        }
         sbMenu.append(sbSubMenu.toString());
         sbMenu.append("</li>");
         return sbMenu.toString();

@@ -25,12 +25,12 @@ public class LeftMenuAttrProcessor extends AbstractUnescapedTextChildModifierAtt
 
     @Override
     protected String getText(Arguments arguments, Element element, String s) {
-        final String url = element.getAttributeValue("url");
-
-        if (element.hasAttribute("url")) {
-            element.removeAttribute("url");
-        }
-        return GeaeHelper.buildUserMenu(url);
+//        final String url = element.getAttributeValue("url");
+//
+//        if (element.hasAttribute("url")) {
+//            element.removeAttribute("url");
+//        }
+        return GeaeHelper.buildUserMenu();
     }
 
     @Override
