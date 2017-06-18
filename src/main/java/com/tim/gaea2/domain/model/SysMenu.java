@@ -84,13 +84,15 @@ public class SysMenu {
 
         sbMenu.append(">");
 
-        String menuFmt = "<a href=\"%s\" %s><i class=\"%s\"></i><span class=\"menu-text\"> %s </span><b class=\"arrow icon-angle-down\"></b></a>";
+        String menuFmt = "<a href=\"%s\" %s><i class=\"%s\"></i><span class=\"menu-text\"> %s </span>%s</a>";
 
         String dropdownClass="";
+        String arrowDownClass = "";
         if(this.subMenus != null && this.subMenus.size() > 0){
             dropdownClass = "class=\"dropdown-toggle\"";
+            arrowDownClass = "<b class=\"arrow fa fa-angle-down\"></b>";
         }
-        sbMenu.append(String.format(menuFmt,this.url,dropdownClass,this.iconClass,this.menuName));
+        sbMenu.append(String.format(menuFmt,this.url,dropdownClass,this.iconClass,this.menuName,arrowDownClass));
 
         sbMenu.append(sbSubMenu.toString());
         sbMenu.append("</li>");
