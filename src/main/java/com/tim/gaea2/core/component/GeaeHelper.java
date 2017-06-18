@@ -4,8 +4,6 @@ import com.tim.gaea2.core.shiro.ShiroUser;
 import com.tim.gaea2.core.utils.SpringUtil;
 import com.tim.gaea2.domain.model.SysMenu;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.web.util.SavedRequest;
-import org.springframework.http.HttpRequest;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
