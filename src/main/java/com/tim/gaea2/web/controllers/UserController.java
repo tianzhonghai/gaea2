@@ -135,8 +135,8 @@ public class UserController {
             InetAddress addr = InetAddress.getByName("172.16.13.65");
             addrs.add(addr);
 
-            InetAddress addr2 = InetAddress.getByName("172.16.13.73");
-            addrs.add(addr2);
+//            InetAddress addr2 = InetAddress.getByName("172.16.13.73");
+//            addrs.add(addr2);
 
         }catch (UnknownHostException ex){}
 
@@ -145,7 +145,7 @@ public class UserController {
             Settings settings = Settings.builder()
                     .put("cluster.name", "gaea")
                     //.put("name","node-1")
-                    .put("client.transport.sniff", true)
+                    //.put("client.transport.sniff", true)
                     //.put("action.bulk.compress", true)
                     .build();
             client = TransportClient.builder().settings(settings).build();
@@ -153,10 +153,10 @@ public class UserController {
                 client.addTransportAddress(new InetSocketTransportAddress(addr, 9300));
             }
 
-            SearchRequestBuilder searchReq = client.prepareSearch("gaea").setTypes("user").setFrom(0).setSize(20).setExplain(true);
+            SearchRequestBuilder searchReq = client.prepareSearch("customer").setTypes("external").setFrom(0).setSize(20).setExplain(true);
 
             BoolQueryBuilder boolenFilter = QueryBuilders.boolQuery()
-                    .must(QueryBuilders.termQuery("id",1));
+                    .must(QueryBuilders.termQuery("name","John Doe"));
 
             BoolQueryBuilder filteredQueryBuilder = QueryBuilders.boolQuery().filter(boolenFilter);
             searchReq.setQuery(filteredQueryBuilder);
