@@ -154,7 +154,12 @@ public class UserController {
 
         for (SearchHit sh :searchHits.getHits()) {
             String source = sh.getSourceAsString();
-            UserQueryModel item = JSON.parseObject(source, UserQueryModel.class);
+            SysUser user = JSON.parseObject(source, SysUser.class);
+            UserQueryModel item = new UserQueryModel();
+            item.setId(user.getId());
+            item.setUserName(user.getUserName());
+            item.setState(user.getState());
+            item.setCreateTime(user.getCreateTime());
             result.add(item);
         }
         return result;
