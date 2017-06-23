@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.google.common.cache.Cache;
 import com.tim.gaea2.core.utils.GuavaCacheUtils;
 import com.tim.gaea2.core.utils.SecretUtils;
+import com.tim.gaea2.core.utils.SpringUtil;
 import com.tim.gaea2.domain.model.SysUser;
 import com.tim.gaea2.domain.service.UserInfoService;
 import com.tim.gaea2.web.models.UserModel;
@@ -23,6 +24,8 @@ import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.SearchHit;
+import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.sort.SortOrder;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
 import org.slf4j.Logger;
@@ -130,49 +133,28 @@ public class UserController {
     @RequestMapping(value = "/queryUserList",method = RequestMethod.GET)
     @ResponseBody
     public List<UserQueryModel> queryUserList() {
-        List<InetAddress> addrs = new ArrayList<>();
-        try {
-            InetAddress addr = InetAddress.getByName("172.16.13.65");
-            addrs.add(addr);
 
-//            InetAddress addr2 = InetAddress.getByName("172.16.13.73");
-//            addrs.add(addr2);
+        List<UserQueryModel> result =  new ArrayList<>();
+        TransportClient client = SpringUtil.getBean(TransportClient.class);
 
-        }catch (UnknownHostException ex){}
+        SearchRequestBuilder searchReq = client.prepareSearch("sys").setTypes("user").setFrom(0).setSize(20).setExplain(true);
 
-        TransportClient client = null;
-        try {
-            Settings settings = Settings.builder()
-                    .put("cluster.name", "gaea")
-                    //.put("name","node-1")
-                    //.put("client.transport.sniff", true)
-                    //.put("action.bulk.compress", true)
-                    .build();
-            client = TransportClient.builder().settings(settings).build();
-            for (InetAddress addr :addrs) {
-                client.addTransportAddress(new InetSocketTransportAddress(addr, 9300));
-            }
+        BoolQueryBuilder boolenFilter = QueryBuilders.boolQuery()
+                .must(QueryBuilders.termQuery("userName","admin"));
 
-            SearchRequestBuilder searchReq = client.prepareSearch("customer").setTypes("external").setFrom(0).setSize(20).setExplain(true);
+        BoolQueryBuilder filteredQueryBuilder = QueryBuilders.boolQuery().filter(boolenFilter);
+        searchReq.setQuery(filteredQueryBuilder);
+        //searchReq.addSort(SORT_FIELD, SortOrder.valueOf(ORDER_TYPE));
+        SearchResponse searchResponse = searchReq.execute().actionGet(TimeValue.timeValueMillis(1500));
 
-            BoolQueryBuilder boolenFilter = QueryBuilders.boolQuery()
-                    .must(QueryBuilders.termQuery("name","John Doe"));
+        SearchHits searchHits = searchResponse.getHits();
 
-            BoolQueryBuilder filteredQueryBuilder = QueryBuilders.boolQuery().filter(boolenFilter);
-            searchReq.setQuery(filteredQueryBuilder);
-            //searchReq.addSort(SORT_FIELD, SortOrder.valueOf(ORDER_TYPE));
-            SearchResponse res = searchReq.execute().actionGet(TimeValue.timeValueMillis(1500));
-
-            client.close();
+        for (SearchHit sh :searchHits.getHits()) {
+            String source = sh.getSourceAsString();
+            UserQueryModel item = JSON.parseObject(source, UserQueryModel.class);
+            result.add(item);
         }
-        catch (Exception ex){
-            logger.error(ex.getMessage(),ex);
-        }
-        finally {
-            if(client != null) client.close();
-        }
-
-        return null;
+        return result;
     }
 
     @RequestMapping(value = "/rebuild",method = RequestMethod.GET)
@@ -183,45 +165,19 @@ public class UserController {
             return "user empty";
         }
 
-        TransportClient client = null;
-        try {
-            Settings settings = Settings.builder().put("cluster.name", "gaea")
-                    .put("name","node-1")
-                    .put("client.transport.sniff", true).build();
+        TransportClient client = SpringUtil.getBean(TransportClient.class);
+        BulkRequest bulkRequest = new BulkRequest();
 
-            //client = new PreBuiltTransportClient(settings);
+        for (SysUser user: userList) {
+            String userJson = JSON.toJSONString(user);
 
-            client = TransportClient.builder().settings(settings).build();
-            client.addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("172.16.13.65"), 9300));
-
-            BulkRequest bulkRequest = new BulkRequest();
-
-            for (SysUser user: userList) {
-                String userJson = JSON.toJSONString(user);
-
-                IndexRequest indexRequest =new IndexRequest();
-                indexRequest.index("sys").type("user").id(user.getId().toString()).source(userJson);
-                bulkRequest.add(indexRequest);
-            }
-
-            ActionFuture<BulkResponse> af = client.bulk(bulkRequest);
-
-            client.close();
+            IndexRequest indexRequest =new IndexRequest();
+            indexRequest.index("sys").type("user").id(user.getId().toString()).source(userJson);
+            bulkRequest.add(indexRequest);
         }
-        catch (UnknownHostException ex){
-            logger.error(ex.getMessage(),ex);
-        }
-        catch (Exception ex){
-            logger.error(ex.getMessage(),ex);
-            throw ex;
-        }
-        catch(NoClassDefFoundError ex) {
-            logger.error(ex.getMessage(),ex);
-            throw ex;
-        }
-        finally {
-            if(client != null) client.close();
-        }
+
+        ActionFuture<BulkResponse> af = client.bulk(bulkRequest);
+
         return "ok";
     }
 }
