@@ -9,6 +9,7 @@ import com.tim.gaea2.domain.model.SysUser;
 import com.tim.gaea2.domain.service.UserInfoService;
 import com.tim.gaea2.web.models.UserModel;
 import com.tim.gaea2.web.models.UserQueryModel;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.dozer.spring.DozerBeanMapperFactoryBean;
 import org.elasticsearch.action.ActionFuture;
@@ -33,10 +34,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -132,18 +130,21 @@ public class UserController {
 
     @RequestMapping(value = "/queryUserList",method = RequestMethod.GET)
     @ResponseBody
-    public List<UserQueryModel> queryUserList() {
+    public List<UserQueryModel> queryUserList(@RequestParam String k) {
 
         List<UserQueryModel> result =  new ArrayList<>();
         TransportClient client = SpringUtil.getBean(TransportClient.class);
 
         SearchRequestBuilder searchReq = client.prepareSearch("sys").setTypes("user").setFrom(0).setSize(20).setExplain(true);
 
-        BoolQueryBuilder boolenFilter = QueryBuilders.boolQuery()
-                .must(QueryBuilders.termQuery("userName","admin"));
+        if(StringUtils.isNotEmpty(k)){
+            BoolQueryBuilder boolenFilter = QueryBuilders.boolQuery().must(QueryBuilders.termQuery("userName",k));
 
-        BoolQueryBuilder filteredQueryBuilder = QueryBuilders.boolQuery().filter(boolenFilter);
-        searchReq.setQuery(filteredQueryBuilder);
+            BoolQueryBuilder filteredQueryBuilder = QueryBuilders.boolQuery().filter(boolenFilter);
+            searchReq.setQuery(filteredQueryBuilder);
+        }
+
+
         //searchReq.addSort(SORT_FIELD, SortOrder.valueOf(ORDER_TYPE));
         SearchResponse searchResponse = searchReq.execute().actionGet(TimeValue.timeValueMillis(1500));
 
