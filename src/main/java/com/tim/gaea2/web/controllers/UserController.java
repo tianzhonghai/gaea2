@@ -24,6 +24,7 @@ import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
@@ -138,13 +139,14 @@ public class UserController {
         SearchRequestBuilder searchReq = client.prepareSearch("sys").setTypes("user").setFrom(0).setSize(20).setExplain(true);
 
         if(StringUtils.isNotEmpty(k)){
-            BoolQueryBuilder boolenFilter = QueryBuilders.boolQuery().must(QueryBuilders.termQuery("userName",k));
+//            BoolQueryBuilder boolenFilter = QueryBuilders.boolQuery().must(QueryBuilders.termQuery("userName",k));
+//            BoolQueryBuilder filteredQueryBuilder = QueryBuilders.boolQuery().filter(boolenFilter);
+//            searchReq.setQuery(filteredQueryBuilder);
 
-            BoolQueryBuilder filteredQueryBuilder = QueryBuilders.boolQuery().filter(boolenFilter);
-            searchReq.setQuery(filteredQueryBuilder);
+            searchReq.setQuery(QueryBuilders.matchQuery("userName", k));
+        } else {
+            searchReq.setQuery(QueryBuilders.matchAllQuery());
         }
-
-
         //searchReq.addSort(SORT_FIELD, SortOrder.valueOf(ORDER_TYPE));
         SearchResponse searchResponse = searchReq.execute().actionGet(TimeValue.timeValueMillis(1500));
 
