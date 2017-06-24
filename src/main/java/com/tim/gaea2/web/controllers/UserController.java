@@ -151,7 +151,6 @@ public class UserController {
 //            BoolQueryBuilder boolenFilter = QueryBuilders.boolQuery().must(QueryBuilders.termQuery("userName",k));
 //            BoolQueryBuilder filteredQueryBuilder = QueryBuilders.boolQuery().filter(boolenFilter);
 //            searchReq.setQuery(filteredQueryBuilder);
-
             searchReq.setQuery(QueryBuilders.matchQuery("state", k));
         } else {
             searchReq.setQuery(QueryBuilders.matchAllQuery());
@@ -163,13 +162,12 @@ public class UserController {
 
         for (SearchHit sh :searchHits.getHits()) {
             String source = sh.getSourceAsString();
-            SysUser user = JSON.parseObject(source, SysUser.class);
-            UserQueryModel item = new UserQueryModel();
-            item.setId(user.getId());
-            item.setUserName(user.getUserName());
-            item.setState(user.getState());
-            item.setCreateTime(user.getCreateTime());
-            result.add(item);
+            UserQueryModel user = JSON.parseObject(source, UserQueryModel.class);
+            user.setId(user.getId());
+            user.setUserName(user.getUserName());
+            user.setState(user.getState());
+            user.setCreateTime(user.getCreateTime());
+            result.add(user);
         }
         return result;
     }
@@ -186,15 +184,16 @@ public class UserController {
         BulkRequest bulkRequest = new BulkRequest();
 
         for (SysUser user: userList) {
-            String userJson = JSON.toJSONString(user);
+            UserQueryModel model = this.toUserQueryModel(user);
+            String userJson = JSON.toJSONString(model);
 
             IndexRequest indexRequest =new IndexRequest();
             indexRequest.index("sys").type("user").id(user.getId().toString()).source(userJson);
+
             bulkRequest.add(indexRequest);
         }
 
         ActionFuture<BulkResponse> af = client.bulk(bulkRequest);
-
         return "ok";
     }
 
@@ -204,9 +203,7 @@ public class UserController {
         String index = "sys";
         String type = "user";
         TransportClient client = SpringUtil.getBean(TransportClient.class);
-
         //CreateIndexResponse createIndexResponse = client.admin().indices().prepareCreate(index).execute().actionGet();
-
         try {
             XContentBuilder mapping  = createMapping(type);
             PutMappingRequest mappingRequest = Requests.putMappingRequest(index).type(type).source(mapping);
@@ -261,5 +258,13 @@ public class UserController {
         return mapping;
     }
 
+    private UserQueryModel toUserQueryModel(SysUser sysUser){
+        UserQueryModel model = new UserQueryModel();
+        model.setId(sysUser.getId());
+        model.setUserName(sysUser.getUserName());
+        model.setState(sysUser.getState());
+        model.setCreateTime(sysUser.getCreateTime());
+        return model;
+    }
 
 }
