@@ -21,7 +21,7 @@ public class ElasticSearchConfig {
     public TransportClient esClient(){
         List<InetAddress> addrs = new ArrayList<InetAddress>();
         try {
-            InetAddress addr = InetAddress.getByName("192.168.1.9");
+            InetAddress addr = InetAddress.getByName("192.168.11.78");
             addrs.add(addr);
         }catch (UnknownHostException ex){}
 

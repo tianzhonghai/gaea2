@@ -197,21 +197,24 @@ public class UserController {
     @ResponseBody
     public String mapping() throws Exception {
         String index = "sys";
+        String type = "user";
         TransportClient client = SpringUtil.getBean(TransportClient.class);
         client.admin().indices().prepareCreate(index).execute().actionGet();
 
         XContentBuilder builder= XContentFactory.jsonBuilder()
-                .startObject()
-                .startObject(index)
+        .startObject()
+            .startObject(index)
                 .startObject("properties")
-                .startObject("id").field("type", "integer").field("store", "yes").endObject()
-                .startObject("kw").field("type", "string").field("store", "yes").field("indexAnalyzer", "ik").field("searchAnalyzer", "ik").endObject()
-                .startObject("edate").field("type", "date").field("store", "yes").field("indexAnalyzer", "ik").field("searchAnalyzer", "ik").endObject()
+                    .startObject("id").field("type", "long").field("store", "no").endObject()
+                    .startObject("username").field("type", "text").field("store", "no").field("analyzer", "ik_smart").field("tokenizer", "ik_max_word").endObject()
+                    .startObject("password").field("type", "text").field("store", "no").field("analyzer", "ik_smart").field("tokenizer", "ik_max_word").endObject()
+                    .startObject("state").field("type", "text").field("store", "no").field("analyzer", "ik_smart").field("tokenizer", "ik_max_word").endObject()
+                    .startObject("createtime").field("type", "date").field("store", "no").field("analyzer", "ik_smart").field("tokenizer", "ik_max_word").endObject()
                 .endObject()
-                .endObject()
-                .endObject();
+            .endObject()
+        .endObject();
 
-        PutMappingRequest mappingRequest = Requests.putMappingRequest("productIndex").type("productIndex").source(builder);
+        PutMappingRequest mappingRequest = Requests.putMappingRequest(index).type(type).source(builder);
         client.admin().indices().putMapping(mappingRequest).actionGet();
 
         return "ok";
