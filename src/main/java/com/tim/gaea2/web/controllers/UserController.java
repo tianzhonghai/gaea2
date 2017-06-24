@@ -13,16 +13,20 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.dozer.spring.DozerBeanMapperFactoryBean;
 import org.elasticsearch.action.ActionFuture;
+import org.elasticsearch.action.admin.indices.mapping.put.PutMappingRequest;
 import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.client.Requests;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.common.unit.TimeValue;
+import org.elasticsearch.common.xcontent.XContentBuilder;
+import org.elasticsearch.common.xcontent.XContentFactory;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
@@ -185,6 +189,30 @@ public class UserController {
         }
 
         ActionFuture<BulkResponse> af = client.bulk(bulkRequest);
+
+        return "ok";
+    }
+
+    @RequestMapping(value = "/mapping",method = RequestMethod.GET)
+    @ResponseBody
+    public String mapping() throws Exception {
+        String index = "sys";
+        TransportClient client = SpringUtil.getBean(TransportClient.class);
+        client.admin().indices().prepareCreate(index).execute().actionGet();
+
+        XContentBuilder builder= XContentFactory.jsonBuilder()
+                .startObject()
+                .startObject(index)
+                .startObject("properties")
+                .startObject("id").field("type", "integer").field("store", "yes").endObject()
+                .startObject("kw").field("type", "string").field("store", "yes").field("indexAnalyzer", "ik").field("searchAnalyzer", "ik").endObject()
+                .startObject("edate").field("type", "date").field("store", "yes").field("indexAnalyzer", "ik").field("searchAnalyzer", "ik").endObject()
+                .endObject()
+                .endObject()
+                .endObject();
+
+        PutMappingRequest mappingRequest = Requests.putMappingRequest("productIndex").type("productIndex").source(builder);
+        client.admin().indices().putMapping(mappingRequest).actionGet();
 
         return "ok";
     }
