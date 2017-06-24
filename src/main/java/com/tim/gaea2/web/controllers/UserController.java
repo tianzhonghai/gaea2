@@ -21,6 +21,7 @@ import org.elasticsearch.action.admin.indices.mapping.put.PutMappingResponse;
 import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.action.index.IndexRequest;
+import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
@@ -135,6 +136,7 @@ public class UserController {
         userVO.setPassword(pwd);
         userInfoService.addUserVO(userVO);
 
+        addToIndex(userVO);
         return "redirect:/user/index";
     }
 
@@ -267,4 +269,12 @@ public class UserController {
         return model;
     }
 
+    private void addToIndex(SysUser sysUser){
+        TransportClient client = SpringUtil.getBean(TransportClient.class);
+        UserQueryModel model = this.toUserQueryModel(sysUser);
+        String userJson = JSON.toJSONString(model);
+
+        IndexResponse indexResponse = client.prepareIndex("sys","user").setSource(userJson).execute().actionGet();
+
+    }
 }

@@ -34,8 +34,8 @@ public class LoginController {
             return "login";
         }
 
-        String username = userModel.getUsername();
-        UsernamePasswordToken token = new UsernamePasswordToken(userModel.getUsername(), userModel.getPassword());
+        String username = userModel.getUserName();
+        UsernamePasswordToken token = new UsernamePasswordToken(username, userModel.getPassword());
         //获取当前的Subject
         Subject currentUser = SecurityUtils.getSubject();
         try {
