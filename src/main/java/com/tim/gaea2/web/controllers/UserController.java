@@ -13,7 +13,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.dozer.spring.DozerBeanMapperFactoryBean;
 import org.elasticsearch.action.ActionFuture;
+import org.elasticsearch.action.admin.indices.create.CreateIndexRequest;
+import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
+import org.elasticsearch.action.admin.indices.exists.types.TypesExistsResponse;
 import org.elasticsearch.action.admin.indices.mapping.put.PutMappingRequest;
+import org.elasticsearch.action.admin.indices.mapping.put.PutMappingResponse;
 import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.action.index.IndexRequest;
@@ -41,6 +45,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -147,7 +152,7 @@ public class UserController {
 //            BoolQueryBuilder filteredQueryBuilder = QueryBuilders.boolQuery().filter(boolenFilter);
 //            searchReq.setQuery(filteredQueryBuilder);
 
-            searchReq.setQuery(QueryBuilders.matchQuery("userName", k));
+            searchReq.setQuery(QueryBuilders.matchQuery("state", k));
         } else {
             searchReq.setQuery(QueryBuilders.matchAllQuery());
         }
@@ -195,28 +200,66 @@ public class UserController {
 
     @RequestMapping(value = "/mapping",method = RequestMethod.GET)
     @ResponseBody
-    public String mapping() throws Exception {
+    public String mapping() {
         String index = "sys";
         String type = "user";
         TransportClient client = SpringUtil.getBean(TransportClient.class);
-        client.admin().indices().prepareCreate(index).execute().actionGet();
 
-        XContentBuilder builder= XContentFactory.jsonBuilder()
-        .startObject()
-            .startObject(index)
-                .startObject("properties")
-                    .startObject("id").field("type", "long").field("store", "no").endObject()
-                    .startObject("username").field("type", "text").field("store", "no").field("analyzer", "ik_smart").field("tokenizer", "ik_max_word").endObject()
-                    .startObject("password").field("type", "text").field("store", "no").field("analyzer", "ik_smart").field("tokenizer", "ik_max_word").endObject()
-                    .startObject("state").field("type", "text").field("store", "no").field("analyzer", "ik_smart").field("tokenizer", "ik_max_word").endObject()
-                    .startObject("createtime").field("type", "date").field("store", "no").field("analyzer", "ik_smart").field("tokenizer", "ik_max_word").endObject()
-                .endObject()
-            .endObject()
-        .endObject();
+        //CreateIndexResponse createIndexResponse = client.admin().indices().prepareCreate(index).execute().actionGet();
 
-        PutMappingRequest mappingRequest = Requests.putMappingRequest(index).type(type).source(builder);
-        client.admin().indices().putMapping(mappingRequest).actionGet();
-
+        try {
+            XContentBuilder mapping  = createMapping(type);
+            PutMappingRequest mappingRequest = Requests.putMappingRequest(index).type(type).source(mapping);
+            PutMappingResponse putMappingResponse = client.admin().indices().putMapping(mappingRequest).actionGet();
+        }
+        catch (IOException ex){
+            logger.error(ex.getMessage(),ex);
+            return ex.getMessage();
+        }catch (Exception ex) {
+            logger.error(ex.getMessage(),ex);
+            return ex.getMessage();
+        }
         return "ok";
     }
+
+    private XContentBuilder createMapping(String type) throws Exception {
+//        XContentBuilder mapping = XContentFactory.jsonBuilder().startObject()
+//                .startObject("fulltext")
+//                .startObject("_all")
+//                .field("indexAnalyzer", "ik")
+//                .field("searchAnalyzer", "ik")
+//                .field("term_vector","no")
+//                .field("store","false")
+//                .endObject()
+//                .startObject("properties")
+//                .startObject("state").field("type", "string").field("store","no")
+//                .field("term_vector","with_positions_offsets").field("indexAnalyzer", "ik")
+//                .field("searchAnalyzer", "ik").field("include_in_all","true").field("boost", 8)
+//                .endObject()
+//                .endObject()
+//                .endObject()
+//                .endObject();
+//        return mapping;
+
+        XContentBuilder mapping = XContentFactory.jsonBuilder()
+                .startObject() //start boot
+                .startObject(type)
+                .startObject("properties")
+                .startObject("id").field("type", "long").endObject()
+                .startObject("username").field("type", "text").field("analyzer", "ik_smart").field("tokenizer", "ik_max_word").endObject()
+                .startObject("password").field("type", "text")
+                //.field("analyzer", "ik_smart").field("tokenizer", "ik_max_word")
+                .endObject()
+                .startObject("state").field("type", "text").field("analyzer", "ik_smart").field("tokenizer", "ik_max_word").endObject()
+                .startObject("createtime").field("type", "date")
+                //.field("analyzer", "ik_smart").field("tokenizer", "ik_max_word")
+                .endObject()
+                .endObject()
+                .endObject()
+                .endObject();
+
+        return mapping;
+    }
+
+
 }
