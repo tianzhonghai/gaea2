@@ -7,6 +7,7 @@ import com.tim.gaea2.core.utils.SecretUtils;
 import com.tim.gaea2.core.utils.SpringUtil;
 import com.tim.gaea2.domain.model.SysUser;
 import com.tim.gaea2.domain.service.UserInfoService;
+import com.tim.gaea2.web.models.BaseRespModel;
 import com.tim.gaea2.web.models.UserModel;
 import com.tim.gaea2.web.models.UserQueryModel;
 import org.apache.commons.lang3.StringUtils;
@@ -142,8 +143,8 @@ public class UserController {
 
     @RequestMapping(value = "/queryUserList",method = RequestMethod.GET)
     @ResponseBody
-    public List<UserQueryModel> queryUserList(@RequestParam String k) {
-
+    public BaseRespModel<List<UserQueryModel>> queryUserList(@RequestParam String k) {
+        BaseRespModel<List<UserQueryModel>> baseRespModel = new BaseRespModel<>();
         List<UserQueryModel> result =  new ArrayList<>();
         TransportClient client = SpringUtil.getBean(TransportClient.class);
 
@@ -171,7 +172,10 @@ public class UserController {
             user.setCreateTime(user.getCreateTime());
             result.add(user);
         }
-        return result;
+        baseRespModel.setResult(result);
+        baseRespModel.setStatus(200);
+        baseRespModel.setMessage("success");
+        return baseRespModel;
     }
 
     @RequestMapping(value = "/rebuild",method = RequestMethod.GET)
