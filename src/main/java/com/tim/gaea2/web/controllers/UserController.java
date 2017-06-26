@@ -158,7 +158,9 @@ public class UserController {
 
             BoolQueryBuilder boolenQuery = QueryBuilders.boolQuery()
                    .should(QueryBuilders.termQuery("userName",k))
-                   .should(QueryBuilders.matchQuery("state", k));
+                   .should(QueryBuilders.matchQuery("state", k))
+                    .minimumNumberShouldMatch(1)
+                    ;
             searchReq.setQuery(boolenQuery);
 
             //searchReq.setQuery(QueryBuilders.matchQuery("state", k));
