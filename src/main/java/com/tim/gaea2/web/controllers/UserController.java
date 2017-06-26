@@ -34,6 +34,7 @@ import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentFactory;
 import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.MatchQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
@@ -154,7 +155,13 @@ public class UserController {
 //            BoolQueryBuilder boolenFilter = QueryBuilders.boolQuery().must(QueryBuilders.termQuery("userName",k));
 //            BoolQueryBuilder filteredQueryBuilder = QueryBuilders.boolQuery().filter(boolenFilter);
 //            searchReq.setQuery(filteredQueryBuilder);
-            searchReq.setQuery(QueryBuilders.matchQuery("state", k));
+
+            BoolQueryBuilder boolenQuery = QueryBuilders.boolQuery()
+                   .should(QueryBuilders.termQuery("userName",k))
+                   .should(QueryBuilders.matchQuery("state", k));
+            searchReq.setQuery(boolenQuery);
+
+            //searchReq.setQuery(QueryBuilders.matchQuery("state", k));
         } else {
             searchReq.setQuery(QueryBuilders.matchAllQuery());
         }
