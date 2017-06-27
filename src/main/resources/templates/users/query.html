@@ -1,19 +1,100 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="shared/layout">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>Title</title>
-
-
   </head>
 <body>
 <div layout:fragment="content">
-    <link rel="stylesheet"String type="text/css"String href="https://cdn.datatables.net/v/dt/dt-1.10.15/datatables.min.css"String/>
-    <script type="text/javascript"String src="https://cdn.datatables.net/v/dt/dt-1.10.15/datatables.min.js"String></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.15/datatables.min.css" />
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.15/datatables.min.js"></script>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">用户查询</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-lg-1 control-label">用户ID</label>
+                            <div class="col-lg-3">
+                                <input type="text" class="form-control" name="id" id="id" />
+                            </div>
+                            <label class="col-lg-1 control-label">用户名</label>
+                            <div class="col-lg-3">
+                                <input type="text" class="form-control" name="userName" id="userName" />
+                            </div>
+                            <label class="col-lg-1 control-label">说明</label>
+                            <div class="col-lg-3">
+                                <input type="text" class="form-control" name="state" id="state" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-3">
+                                <button type="button" id="btnQuery" class="btn btn-success">查询</button>
+                            </div>
+                            <div class="col-lg-5"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">查询结果</h3>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-bordered" id="tbUserList">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>姓名</th>
+                            <th>创建时间</th>
+                            <th>描述</th>
+                        </tr>
+                        </thead>
+                        <tbody>
 
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <th:block layout:fragment="script">
+
+    <script type="text/javascript">
+        $(function(){
+
+        })
+
+        function doQuery(){
+            $.post('/user/queryUserList?rnd='+new Date().getTime(),{"id":$('#id').val(), "userName":$('#userName').val(),"state":$('#state').val()},function(data){
+                if(data.status == 200) {
+                    $.each(data.result, function (index, item) {
+                        //$('#tbUserList tbody').append('<tr><td><a href="/user/view?id='+item.id+'">'+item.id+'</a></td><td>'+item.userName+'</td><td>'+item.password+'</td></tr>')
+                        $('#tbUserList tbody').append('<tr><td><a href="/user/detail/' + item.id + '">' + item.id + '</a></td><td>' + item.userName + '</td><td>' + item.createTime + '</td><td>'+item.state+'</td></tr>')
+                    })
+                }else{
+                    alert(data.message);
+                }
+            })
+        }
+
+        $('#btnQuery').click(function(){
+            doQuery();
+        })
+
+        $('#btnNew').click(function(){
+            window.location = "/user/add";
+        })
+    </script>
 
 </th:block>
 </body>

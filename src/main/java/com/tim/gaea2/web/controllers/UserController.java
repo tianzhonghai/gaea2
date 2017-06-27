@@ -10,6 +10,7 @@ import com.tim.gaea2.domain.service.UserInfoService;
 import com.tim.gaea2.web.models.BaseRespModel;
 import com.tim.gaea2.web.models.UserModel;
 import com.tim.gaea2.web.models.UserQueryModel;
+import com.tim.gaea2.web.models.UserQueryReqModel;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.dozer.spring.DozerBeanMapperFactoryBean;
@@ -142,31 +143,37 @@ public class UserController {
         return "redirect:/user/index";
     }
 
-    @RequestMapping(value = "/queryUserList",method = RequestMethod.GET)
+    @RequestMapping("/query")
+    public String query(){
+        return "users/query";
+    }
+
+    @RequestMapping(value = "/queryUserList",method = RequestMethod.POST)
     @ResponseBody
-    public BaseRespModel<List<UserQueryModel>> queryUserList(@RequestParam String k) {
+    public BaseRespModel<List<UserQueryModel>> queryUserList(UserQueryReqModel model) {
         BaseRespModel<List<UserQueryModel>> baseRespModel = new BaseRespModel<>();
         List<UserQueryModel> result =  new ArrayList<>();
         TransportClient client = SpringUtil.getBean(TransportClient.class);
 
         SearchRequestBuilder searchReq = client.prepareSearch("sys").setTypes("user").setFrom(0).setSize(20).setExplain(true);
 
-        if(StringUtils.isNotEmpty(k)){
-//            BoolQueryBuilder boolenFilter = QueryBuilders.boolQuery().must(QueryBuilders.termQuery("userName",k));
-//            BoolQueryBuilder filteredQueryBuilder = QueryBuilders.boolQuery().filter(boolenFilter);
-//            searchReq.setQuery(filteredQueryBuilder);
-
-            BoolQueryBuilder boolenQuery = QueryBuilders.boolQuery()
-                   .should(QueryBuilders.termQuery("userName",k))
-                   .should(QueryBuilders.matchQuery("state", k))
-                    .minimumNumberShouldMatch(1)
-                    ;
-            searchReq.setQuery(boolenQuery);
-
-            //searchReq.setQuery(QueryBuilders.matchQuery("state", k));
-        } else {
-            searchReq.setQuery(QueryBuilders.matchAllQuery());
+        BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
+        if(model.getId() != null) {
+            boolQueryBuilder.should(QueryBuilders.termQuery("id",model.getId().intValue()));
         }
+
+        if(StringUtils.isNotEmpty(model.getUserName())){
+            boolQueryBuilder.should(QueryBuilders.termQuery("userName",model.getUserName()));
+        }
+
+        if(StringUtils.isNotEmpty(model.getState())){
+            boolQueryBuilder.should(QueryBuilders.matchQuery("state",model.getState()));
+        }
+
+        if(boolQueryBuilder.hasClauses()) {
+            searchReq.setQuery(boolQueryBuilder);
+        }
+
         //searchReq.addSort(SORT_FIELD, SortOrder.valueOf(ORDER_TYPE));
         SearchResponse searchResponse = searchReq.execute().actionGet(TimeValue.timeValueMillis(1500));
 
