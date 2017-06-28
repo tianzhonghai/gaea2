@@ -70,30 +70,59 @@
 <th:block layout:fragment="script">
 
     <script type="text/javascript">
-        $(function(){
+        var oTable = null;
 
+        $(function () {
+            if (oTable == null) {
+                /* Table initialisation */
+                oTable = $('#tbUserList').dataTable({
+                    "aaSorting": [[5, "desc"]],
+                    "bFilter": false,
+                    "sAjaxSource": "/user/queryUserList",
+                    "fnServerData": function (sSource, aoData, fnCallback) {
+                        //$("#loading").toggle();
+                        var userId = $("#id").val();
+//                        if (!/\d/.test(userId)) {
+//                            alert("请输入正确的用户ID");
+//                            return;
+//                        }
+
+                        var userName = $("#userName").val();
+                        var state = $("#state").val();
+
+                        aoData.push({ "name": "id", "value": userId });
+                        aoData.push({ "name": "userName", "value": userName });
+                        aoData.push({ "name": "state", "value": state });
+
+                        $.ajax({
+                            "dataType": 'json',
+                            "type": "POST",
+                            "url": sSource,
+                            "data": aoData,
+                            "success": fnCallback
+                        })
+                    },
+                    "aoColumns": [
+                        { "sClass": "center", "mData": "id" },
+                        { "sClass": "center", "mData": "userName" },
+                        { "sClass": "center", "mData": "createTime" },
+                        { "sClass": "center", "mData": "state"},
+
+                    ]
+                });
+            }
         })
 
-        function doQuery(){
-            $.post('/user/queryUserList?rnd='+new Date().getTime(),{"id":$('#id').val(), "userName":$('#userName').val(),"state":$('#state').val()},function(data){
-                if(data.status == 200) {
-                    $.each(data.result, function (index, item) {
-                        //$('#tbUserList tbody').append('<tr><td><a href="/user/view?id='+item.id+'">'+item.id+'</a></td><td>'+item.userName+'</td><td>'+item.password+'</td></tr>')
-                        $('#tbUserList tbody').append('<tr><td><a href="/user/detail/' + item.id + '">' + item.id + '</a></td><td>' + item.userName + '</td><td>' + item.createTime + '</td><td>'+item.state+'</td></tr>')
-                    })
-                }else{
-                    alert(data.message);
-                }
-            })
+        $('#btnQuery').click(function () {
+            alert(1);
+            doSearch();
+            return false;
+        })
+
+        function doSearch() {
+            oTable.fnClearTable(0);
+            oTable.fnDraw();
         }
-
-        $('#btnQuery').click(function(){
-            doQuery();
-        })
-
-        $('#btnNew').click(function(){
-            window.location = "/user/add";
-        })
     </script>
 
 </th:block>
