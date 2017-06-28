@@ -8,6 +8,7 @@
 <div layout:fragment="content">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.15/datatables.min.css" />
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.15/datatables.min.js"></script>
+    <script type="text/javascript" src="//cdn.datatables.net/plug-ins/1.10.15/api/fnReloadAjax.js"></script>
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default">
@@ -70,60 +71,28 @@
 <th:block layout:fragment="script">
 
     <script type="text/javascript">
-//http://www.tuicool.com/articles/NBBnum
-        var oTable = null;
 
-        $(function () {
-            if (oTable == null) {
-                /* Table initialisation */
-                oTable = $('#tbUserList').dataTable({
-                    "aaSorting": [[5, "desc"]],
-                    "bFilter": false,
-                    "sAjaxSource": "/user/queryUserList",
-                    "fnServerData": function (sSource, aoData, fnCallback) {
-                        //$("#loading").toggle();
-                        var userId = $("#id").val();
-//                        if (!/\d/.test(userId)) {
-//                            alert("请输入正确的用户ID");
-//                            return;
-//                        }
+        var table = $('#tbUserList').dataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": {
+                "url":"/user/queryUserList",
+                "type": "post",
+                "data": function(d){
+                    d.userName = $('#userName').val();
+                }
+            },
+            "columns": [
+                { "data": "id" ,"bSortable": false },
+                { "data": "userName" },
+                { "data": "createTime" },
+                { "data": "state" }
+            ]
+        });
 
-                        var userName = $("#userName").val();
-                        var state = $("#state").val();
-
-                        aoData.push({ "name": "id", "value": userId });
-                        aoData.push({ "name": "userName", "value": userName });
-                        aoData.push({ "name": "state", "value": state });
-
-                        $.ajax({
-                            "dataType": 'json',
-                            "type": "POST",
-                            "url": sSource,
-                            "data": aoData,
-                            "success": fnCallback
-                        })
-                    },
-                    "aoColumns": [
-                        { "sClass": "center", "mData": "id" },
-                        { "sClass": "center", "mData": "userName" },
-                        { "sClass": "center", "mData": "createTime" },
-                        { "sClass": "center", "mData": "state"},
-
-                    ]
-                });
-            }
+        $('#btnQuery').click(function(){
+            table.fnReloadAjax();
         })
-
-        $('#btnQuery').click(function () {
-            alert(1);
-            doSearch();
-            return false;
-        })
-
-        function doSearch() {
-            oTable.fnClearTable(0);
-            oTable.fnDraw();
-        }
     </script>
 
 </th:block>

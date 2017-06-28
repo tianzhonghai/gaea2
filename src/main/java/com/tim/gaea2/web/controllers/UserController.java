@@ -7,10 +7,7 @@ import com.tim.gaea2.core.utils.SecretUtils;
 import com.tim.gaea2.core.utils.SpringUtil;
 import com.tim.gaea2.domain.model.SysUser;
 import com.tim.gaea2.domain.service.UserInfoService;
-import com.tim.gaea2.web.models.BaseRespModel;
-import com.tim.gaea2.web.models.UserModel;
-import com.tim.gaea2.web.models.UserQueryModel;
-import com.tim.gaea2.web.models.UserQueryReqModel;
+import com.tim.gaea2.web.models.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.dozer.spring.DozerBeanMapperFactoryBean;
@@ -150,8 +147,8 @@ public class UserController {
 
     @RequestMapping(value = "/queryUserList",method = RequestMethod.POST)
     @ResponseBody
-    public BaseRespModel<List<UserQueryModel>> queryUserList(UserQueryReqModel model) {
-        BaseRespModel<List<UserQueryModel>> baseRespModel = new BaseRespModel<>();
+    public PagedCollectionModel<UserQueryModel> queryUserList(UserQueryReqModel model) {
+        PagedCollectionModel<UserQueryModel> baseRespModel = new PagedCollectionModel<>();
         List<UserQueryModel> result =  new ArrayList<>();
         TransportClient client = SpringUtil.getBean(TransportClient.class);
 
@@ -188,9 +185,10 @@ public class UserController {
             user.setCreateTime(user.getCreateTime());
             result.add(user);
         }
-        baseRespModel.setResult(result);
-        baseRespModel.setStatus(200);
-        baseRespModel.setMessage("success");
+        baseRespModel.setDraw(2);
+        baseRespModel.setRecordsFiltered(11);
+        baseRespModel.setRecordsTotal(12);
+        baseRespModel.setData(result);
         return baseRespModel;
     }
 
