@@ -152,7 +152,7 @@ public class UserController {
         List<UserQueryModel> result =  new ArrayList<>();
         TransportClient client = SpringUtil.getBean(TransportClient.class);
 
-        SearchRequestBuilder searchReq = client.prepareSearch("sys").setTypes("user").setFrom(0).setSize(20).setExplain(true);
+        SearchRequestBuilder searchReq = client.prepareSearch("sys").setTypes("user").setFrom(model.getStart()).setSize(model.getLength()).setExplain(true);
 
         BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
         if(model.getId() != null) {

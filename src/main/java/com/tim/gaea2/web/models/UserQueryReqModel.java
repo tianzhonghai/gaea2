@@ -3,7 +3,7 @@ package com.tim.gaea2.web.models;
 /**
  * Created by tianzhonghai on 2017/6/27.
  */
-public class UserQueryReqModel {
+public class UserQueryReqModel extends BasePagedReqModel {
     private Integer id;
     private String userName;
     private String state;
