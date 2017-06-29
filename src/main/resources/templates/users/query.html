@@ -72,8 +72,7 @@
 <th:block layout:fragment="script">
 
     <script type="text/javascript">
-
-        var table = $('#tbUserList').dataTable({
+        var tableSetting = {
             "processing": true,
             "serverSide": true,
             "ajax": {
@@ -89,12 +88,13 @@
                 { "data": "createTime" },
                 { "data": "state" }
             ]
-        });
+        };
+
 
         $('#btnQuery').click(function(){
-            table.fnReloadAjax();
-            //table.ajax.reload();
-            table.fnDraw();
+            var table = $('#tbUserList').dataTable(tableSetting);
+
+
         })
     </script>
 
