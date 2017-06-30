@@ -90,11 +90,10 @@
             ]
         };
 
+        var table = $('#tbUserList').DataTable(tableSetting);
 
         $('#btnQuery').click(function(){
-            var table = $('#tbUserList').dataTable(tableSetting);
-
-
+            table.ajax.reload();
         })
     </script>
 
