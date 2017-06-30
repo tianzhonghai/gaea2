@@ -19,6 +19,7 @@ public class SortUtilTest {
     public void InsertSort() {
         SortUtil.insertSort(a);
     }
+
     @Test
     public void HellSort() {
         SortUtil.hellSort(a);
