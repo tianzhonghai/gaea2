@@ -185,9 +185,9 @@ public class UserController {
             user.setCreateTime(user.getCreateTime());
             result.add(user);
         }
-        baseRespModel.setDraw(2);
-        baseRespModel.setRecordsFiltered(11);
-        baseRespModel.setRecordsTotal(12);
+        baseRespModel.setDraw(model.getDraw());
+        baseRespModel.setRecordsFiltered(0);
+        baseRespModel.setRecordsTotal((int)searchHits.getTotalHits());
         baseRespModel.setData(result);
         return baseRespModel;
     }
