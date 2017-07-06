@@ -21,71 +21,52 @@
 
         <!--数据库连接信息 -->
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://localhost:3306/quick4j?useSSL=false"
+                        connectionURL="jdbc:mysql://localhost:3306/gaea?useSSL=false"
                         userId="root" password="111111">
             <property name="remarksReporting" value="true"/>
         </jdbcConnection>
 
         <!--生成的model 包路径 -->
-        <javaModelGenerator targetPackage="com.tim.gaea2.domain.entity" targetProject="src/main/java">
+        <javaModelGenerator targetPackage="com.tim.gaea2.domain.entity.generated" targetProject="src/main/java">
             <property name="enableSubPackages" value="ture"/>
             <property name="trimStrings" value="true"/>
         </javaModelGenerator>
 
         <!--生成xml mapper文件 路径 -->
-        <sqlMapGenerator targetPackage="com.tim.gaea2.domain.repository" targetProject="src/main/java">
+        <sqlMapGenerator targetPackage="com.tim.gaea2.domain.repository.generated" targetProject="src/main/java">
             <property name="enableSubPackages" value="ture"/>
         </sqlMapGenerator>
 
         <!-- 生成的Dao接口 的包路径 -->
-        <javaClientGenerator type="XMLMAPPER" targetPackage="com.tim.gaea2.domain.repository" targetProject="src/main/java">
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.tim.gaea2.domain.repository.generated" targetProject="src/main/java">
             <property name="enableSubPackages" value="ture"/>
         </javaClientGenerator>
 
         <!--对应数据库表名 -->
-        <!--<table tableName="user" domainObjectName="UserPO">-->
-            <!--<property name="beginningDelimiter" value="`"/>-->
-            <!--<property name="endingDelimiter" value="`"/>-->
-            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"></generatedKey>-->
-            <!--&lt;!&ndash;<columnRenamingRule searchString="^i|^d|^f|^b|^s" replaceString=""></columnRenamingRule>&ndash;&gt;-->
-            <!--&lt;!&ndash;<ignoreColumn column="dataversion"></ignoreColumn>&ndash;&gt;-->
-            <!--<columnOverride column="username" property="userName"></columnOverride>-->
-            <!--<columnOverride column="password" property="password"></columnOverride>-->
-            <!--<columnOverride column="state" property="state"></columnOverride>-->
-            <!--<columnOverride column="create_time" property="createTime"></columnOverride>-->
-        <!--</table>-->
-        <!--<table tableName="role" domainObjectName="RolePO">-->
-            <!--<property name="beginningDelimiter" value="`"/>-->
-            <!--<property name="endingDelimiter" value="`"/>-->
-            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"></generatedKey>-->
-            <!--<columnOverride column="role_name" property="roleName"></columnOverride>-->
-            <!--<columnOverride column="role_sign" property="roleSign"></columnOverride>-->
-            <!--<columnOverride column="description" property="description"></columnOverride>-->
-        <!--</table>-->
-
-        <table tableName="user_role" domainObjectName="UserRolePO">
+        <table tableName="sys_user" domainObjectName="UserEntity" mapperName="UserMapper">
             <property name="beginningDelimiter" value="`"/>
             <property name="endingDelimiter" value="`"/>
-            <generatedKey column="id" sqlStatement="MySql" identity="true"></generatedKey>
-            <columnOverride column="user_id" property="userId"></columnOverride>
-            <columnOverride column="role_id" property="roleId"></columnOverride>
+            <generatedKey column="UserID" sqlStatement="MySql" identity="true"></generatedKey>
         </table>
-
-        <table tableName="permission" domainObjectName="PermissionPO">
+        <table tableName="sys_role" domainObjectName="RoleEntity" mapperName="RoleMapper">
             <property name="beginningDelimiter" value="`"/>
             <property name="endingDelimiter" value="`"/>
-            <generatedKey column="id" sqlStatement="MySql" identity="true"></generatedKey>
-            <columnOverride column="permission_name" property="permissionName"></columnOverride>
-            <columnOverride column="permission_sign" property="permissionSign"></columnOverride>
-            <columnOverride column="description" property="description"></columnOverride>
+            <generatedKey column="RoleID" sqlStatement="MySql" identity="true"></generatedKey>
         </table>
-
-        <table tableName="role_permission" domainObjectName="RolePermissionPO">
+        <table tableName="sys_user_role" domainObjectName="UserRoleEntity" mapperName="UserRoleMapper">
             <property name="beginningDelimiter" value="`"/>
             <property name="endingDelimiter" value="`"/>
-            <generatedKey column="id" sqlStatement="MySql" identity="true"></generatedKey>
-            <columnOverride column="permission_id" property="permissionId"></columnOverride>
-            <columnOverride column="role_id" property="roleId"></columnOverride>
+            <generatedKey column="ID" sqlStatement="MySql" identity="true"></generatedKey>
+        </table>
+        <table tableName="sys_permission" domainObjectName="PermissionEntity" mapperName="PermissionMapper">
+            <property name="beginningDelimiter" value="`"/>
+            <property name="endingDelimiter" value="`"/>
+            <generatedKey column="PermissionID" sqlStatement="MySql" identity="true"></generatedKey>
+        </table>
+        <table tableName="sys_role_permission" domainObjectName="RolePermissionEntity" mapperName="RolePermissionMapper">
+            <property name="beginningDelimiter" value="`"/>
+            <property name="endingDelimiter" value="`"/>
+            <generatedKey column="ID" sqlStatement="MySql" identity="true"></generatedKey>
         </table>
     </context>
 </generatorConfiguration>
