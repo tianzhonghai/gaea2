@@ -1,7 +1,7 @@
 package com.tim.gaea2.domain.service;
 
 
-import com.tim.gaea2.domain.entity.UserRolePO;
+import com.tim.gaea2.domain.entity.generated.UserEntity;
 import com.tim.gaea2.domain.model.SysUser;
 
 import java.util.List;
@@ -18,5 +18,5 @@ public interface UserInfoService {
 
     List<SysUser> getAllUserVOs();
 
-    List<UserRolePO> getUserRolesByUserId(long userId);
+    List<UserEntity> getUserRolesByUserId(long userId);
 }

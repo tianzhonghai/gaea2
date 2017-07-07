@@ -7,6 +7,7 @@ import com.tim.gaea2.domain.entity.UserRolePOExample;
 import com.tim.gaea2.domain.model.SysUser;
 import com.tim.gaea2.domain.repository.UserPOMapper;
 import com.tim.gaea2.domain.repository.UserRolePOMapper;
+import com.tim.gaea2.domain.repository.generated.UserMapper;
 import org.dozer.Mapper;
 import org.dozer.spring.DozerBeanMapperFactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ import java.util.List;
 public class UserInfoServiceImpl implements UserInfoService {
 
     @Autowired
-    private UserPOMapper userMapper;
+    private UserMapper userMapper;
 
     @Autowired
     private UserRolePOMapper userRolePOMapper;
