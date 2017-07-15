@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.PropertySource;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
@@ -65,8 +66,6 @@ public class DruidConfig {
     @Value("${spring.datasource.filters}")
     private String filters;
 
-
-
 //    @Bean
 //    public ServletRegistrationBean druidServlet() {
 //        ServletRegistrationBean reg = new ServletRegistrationBean();
@@ -116,7 +115,4 @@ public class DruidConfig {
         }
         return datasource;
     }
-
-
-
 }

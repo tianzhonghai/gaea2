@@ -53,12 +53,9 @@ public class UserInfoServiceImpl implements UserInfoService {
         org.dozer.Mapper mapper = getMapper();
         //org.dozer.Mapper mapper = org.dozer.DozerBeanMapperSingletonWrapper.getInstance(); //new DozerBeanMapper();
         SysUser userVO = mapper.map(userPO, SysUser.class);
-
-//        UserVO userVO = new UserVO();
-//        userVO.setId(userPO.getId());
-//        userVO.setUserName(userPO.getUserName());
-//        userVO.setPassword(userPO.getPassword());
-//        userVO.setState(userPO.getState());
+        if(userVO != null) {
+            userVO.setId(userPO.getUserid());
+        }
         return userVO;
     }
 
