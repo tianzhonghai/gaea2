@@ -41,19 +41,11 @@
     <sql id="Base_Column_List">
         PermissionID, PermissionName, Description, Url, IsMenu
     </sql>
-    <select id="selectByExample" parameterType="com.tim.gaea2.domain.entity.generated.PermissionEntityExample" resultMap="BaseResultMap">
-        select
-        <if test="distinct">
-            distinct
-        </if>
-        <include refid="Base_Column_List" />
-        from sys_permission
-        <if test="_parameter != null">
-            <include refid="Example_Where_Clause" />
-        </if>
-        <if test="orderByClause != null">
-            order by ${orderByClause}
-        </if>
+    <select id="getAllUserPermission" parameterType="com.tim.gaea2.domain.entity.generated.PermissionEntityExample" resultMap="BaseResultMap">
+       SELECT C.* FROM `sys_role_permission` A JOIN `sys_user_role` B
+ON A.`RoleID` = B.`RoleID`
+JOIN `sys_permission` C ON A.`PermissionID` = C.`PermissionID`
+WHERE B.`UserID` = #{uesrId,jdbcType=INTEGER}
     </select>
 
 </mapper>

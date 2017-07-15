@@ -1,10 +1,9 @@
 package com.tim.gaea2.core.shiro;
 
 import com.tim.gaea2.core.utils.SecretUtils;
-import com.tim.gaea2.domain.entity.RoleAndPermissionPO;
-import com.tim.gaea2.domain.entity.UserRolePO;
+import com.tim.gaea2.domain.entity.generated.PermissionEntity;
 import com.tim.gaea2.domain.model.SysUser;
-import com.tim.gaea2.domain.service.RoleService;
+import com.tim.gaea2.domain.service.PermissionService;
 import com.tim.gaea2.domain.service.UserInfoService;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authc.credential.AllowAllCredentialsMatcher;
@@ -15,9 +14,7 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * 验证范围
@@ -38,11 +35,10 @@ public class CustomAuthorizingRealm extends AuthorizingRealm {
     private UserInfoService userService;
 
     @Autowired
-    private RoleService roleService;
+    private PermissionService permissionService;
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-        //SysUser user = (SysUser)super.getAvailablePrincipal(principals);
         ShiroUser user = (ShiroUser) principals.getPrimaryPrincipal();
         //String username = (String) principals.fromRealm(getName()).iterator().next();
         //SysUser user = userService.getUserVoByUserName(username);
@@ -51,12 +47,12 @@ public class CustomAuthorizingRealm extends AuthorizingRealm {
             Set<String> shiroPermissions = new HashSet<>();
             Set<String> roleSet = new HashSet<>();
 
-            List<RoleAndPermissionPO> roles = roleService.getRolePermissionByUserId(user.getId());
-            for (RoleAndPermissionPO  roleAndPermissionPO : roles) {
+            List<PermissionEntity> permissions = permissionService.getAllUserPermission(user.getId());
+            for (PermissionEntity  entity : permissions) {
 //                if(! roleSet.contains(roleAndPermissionPO.getRoleId().toString())) {
 //                    roleSet.add(roleAndPermissionPO.getRoleId().toString());
 //                }
-                shiroPermissions.add(roleAndPermissionPO.getPermissionSign());
+                shiroPermissions.add(entity.getPermissionname());
             }
             //authorizationInfo.setRoles(roleSet);
             authorizationInfo.setStringPermissions(shiroPermissions); //权限集合，基于角色的可以不设置
@@ -90,7 +86,6 @@ public class CustomAuthorizingRealm extends AuthorizingRealm {
         shiroUser.setId(user.getId());
         shiroUser.setUserName(user.getUserName());
         SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(shiroUser, SecretUtils.MD5(password), getName());
-
         return info;
     }
 }

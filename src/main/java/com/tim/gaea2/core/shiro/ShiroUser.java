@@ -4,15 +4,15 @@ package com.tim.gaea2.core.shiro;
  * Created by tianzhonghai on 2017/6/5.
  */
 public class ShiroUser {
-    private Long id;
+    private int id;
 
     private String userName;
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

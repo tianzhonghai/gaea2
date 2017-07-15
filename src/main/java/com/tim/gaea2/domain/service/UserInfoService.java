@@ -10,7 +10,7 @@ import java.util.List;
  * Created by Tim on 2017/2/12.
  */
 public interface UserInfoService {
-    SysUser getUserVoByUserId(long id);
+    SysUser getUserVoByUserId(int id);
 
     SysUser getUserVoByUserName(String userName);
 
@@ -18,5 +18,4 @@ public interface UserInfoService {
 
     List<SysUser> getAllUserVOs();
 
-    List<UserEntity> getUserRolesByUserId(long userId);
 }

@@ -2,7 +2,6 @@ package com.tim.gaea2.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.tim.gaea2.core.utils.SpringUtil;
-import com.tim.gaea2.domain.entity.UserRolePO;
 import com.tim.gaea2.domain.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -16,7 +15,7 @@ import java.util.List;
  * Created by Tim on 2017/2/12.
  */
 public class SysUser {
-    private Long id;
+    private Integer id;
 
     private String userName;
 
@@ -26,11 +25,11 @@ public class SysUser {
 
     private Date createTime;
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -64,11 +63,5 @@ public class SysUser {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
-    }
-
-    public List<UserRolePO> getAllUserRolePOs(){
-        UserInfoService userInfoService = SpringUtil.getBean(UserInfoService.class);
-        List<UserRolePO> list = userInfoService.getUserRolesByUserId(id);
-        return list;
     }
 }

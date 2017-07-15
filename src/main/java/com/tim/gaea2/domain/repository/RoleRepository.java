@@ -1,6 +1,7 @@
 package com.tim.gaea2.domain.repository;
 
 import com.tim.gaea2.domain.entity.generated.PermissionEntity;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -13,5 +14,5 @@ public interface RoleRepository {
      * @param userId
      * @return
      */
-    List<PermissionEntity> getAllUserPermission(int userId);
+    List<PermissionEntity> getAllUserPermission(@Param("uesrId") int userId);
 }

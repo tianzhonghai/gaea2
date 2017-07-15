@@ -8,7 +8,7 @@ import java.util.Date;
  * Created by tianzhonghai on 2017/6/8.
  */
 public class UserQueryModel {
-    private Long id;
+    private int id;
 
     private String userName;
 
@@ -16,11 +16,11 @@ public class UserQueryModel {
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
