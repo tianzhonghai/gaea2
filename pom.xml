@@ -237,9 +237,9 @@
                 <configuration>
                     <excludes>
                         <!--排除一些不需要打包的class文件-->
-                        <exclude>**/*.properties</exclude>
-                        <exclude>**/logback*.xml</exclude>
-                        <exclude>**/ehcache.xml</exclude>
+                        <!--<exclude>**/*.properties</exclude>-->
+                        <!--<exclude>**/logback*.xml</exclude>-->
+                        <!--<exclude>**/ehcache.xml</exclude>-->
                         <exclude>**/applicationContext.xml</exclude>
                     </excludes>
                 </configuration>

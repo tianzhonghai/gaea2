@@ -26,23 +26,8 @@ public class HomeController {
         return "home/index";
     }
 
-    @RequestMapping("/calc")
-    public String calc(){
-
-        String content = "";
-        try {
-            Map<String,String> map = new HashMap<>();
-            content = HttpClientUtil.requestGet("http://www.bing.com", map, 500);
-
-        }catch (Exception ex){
-
-            String msg = ex.getMessage();
-        }
-
-        int a = 0,b = 0,c = 0;
-        //a = b / c;
-        return "home/test";
+    @RequestMapping("/main")
+    public String main() {
+        return "home/main";
     }
-
-
 }

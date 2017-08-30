@@ -1,12 +1,8 @@
 package com.tim.gaea2.domain.service;
 
-import com.tim.gaea2.domain.entity.UserPO;
-import com.tim.gaea2.domain.entity.UserPOExample;
-import com.tim.gaea2.domain.entity.UserRolePO;
-import com.tim.gaea2.domain.entity.UserRolePOExample;
+import com.tim.gaea2.domain.entity.generated.UserEntity;
+import com.tim.gaea2.domain.entity.generated.UserEntityExample;
 import com.tim.gaea2.domain.model.SysUser;
-import com.tim.gaea2.domain.repository.UserPOMapper;
-import com.tim.gaea2.domain.repository.UserRolePOMapper;
 import com.tim.gaea2.domain.repository.generated.UserMapper;
 import org.dozer.Mapper;
 import org.dozer.spring.DozerBeanMapperFactoryBean;
@@ -27,14 +23,11 @@ public class UserInfoServiceImpl implements UserInfoService {
     private UserMapper userMapper;
 
     @Autowired
-    private UserRolePOMapper userRolePOMapper;
-
-    @Autowired
     private DozerBeanMapperFactoryBean dozerBean;
 
     @Override
-    public SysUser getUserVoByUserId(long id) {
-        UserPO userPO = userMapper.selectByPrimaryKey(id);
+    public SysUser getUserVoByUserId(int id) {
+        UserEntity userPO = userMapper.selectByPrimaryKey(id);
 
         SysUser userVO = new SysUser();
         if (userPO != null) {
@@ -45,9 +38,9 @@ public class UserInfoServiceImpl implements UserInfoService {
 
     @Override
     public SysUser getUserVoByUserName(String userName) {
-        UserPOExample userPOExample = new UserPOExample();
-        userPOExample.createCriteria().andUserNameEqualTo(userName);
-        List<UserPO> userPOs = userMapper.selectByExample(userPOExample);
+        UserEntityExample userPOExample = new UserEntityExample();
+        userPOExample.createCriteria().andAccountEqualTo(userName);
+        List<UserEntity> userPOs = userMapper.selectByExample(userPOExample);
 
         SysUser userVO = null;
         if(userPOs != null && userPOs.size() > 0){
@@ -56,16 +49,13 @@ public class UserInfoServiceImpl implements UserInfoService {
         return userVO;
     }
 
-    private SysUser toUserVO(UserPO userPO) {
+    private SysUser toUserVO(UserEntity userPO) {
         org.dozer.Mapper mapper = getMapper();
         //org.dozer.Mapper mapper = org.dozer.DozerBeanMapperSingletonWrapper.getInstance(); //new DozerBeanMapper();
         SysUser userVO = mapper.map(userPO, SysUser.class);
-
-//        UserVO userVO = new UserVO();
-//        userVO.setId(userPO.getId());
-//        userVO.setUserName(userPO.getUserName());
-//        userVO.setPassword(userPO.getPassword());
-//        userVO.setState(userPO.getState());
+        if(userVO != null) {
+            userVO.setId(userPO.getUserid());
+        }
         return userVO;
     }
 
@@ -81,36 +71,20 @@ public class UserInfoServiceImpl implements UserInfoService {
 
     @Override
     public void addUserVO(SysUser userVO) {
-//        UserPO userPO = new UserPO();
-//        userPO.setUserName(userVO.getUserName());
-//        userPO.setPassword(userVO.getPassword());
-//        userPO.setCreateTime(new Date());
-//        //userPO.setState();
-
         org.dozer.Mapper mapper = getMapper();
-        UserPO userPO = mapper.map(userVO, UserPO.class);
-        userPO.setCreateTime(new Date());
+        UserEntity userPO = mapper.map(userVO, UserEntity.class);
+        userPO.setCreatedtime(new Date());
         userMapper.insert(userPO);
     }
 
     @Override
     public List<SysUser> getAllUserVOs() {
         List<SysUser> list = new ArrayList<>();
-        List<UserPO> userPOs = userMapper.selectByExample(null);
+        List<UserEntity> userPOs = userMapper.selectByExample(null);
 
-        for (UserPO po : userPOs) {
-
+        for (UserEntity po : userPOs) {
             list.add(toUserVO(po));
         }
-        return list;
-    }
-
-    @Override
-    public List<UserRolePO> getUserRolesByUserId(long userId) {
-        UserRolePOExample userRolePOExample = new UserRolePOExample();
-        userRolePOExample.createCriteria().andUserIdEqualTo(userId);
-        List<UserRolePO> list = userRolePOMapper.selectByExample(userRolePOExample);
-
         return list;
     }
 }
